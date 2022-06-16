@@ -1,40 +1,31 @@
-import React, { useState } from "react";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
+  AppBar, Fab, IconButton,
   InputBase,
   Menu,
-  MenuItem,
-  Fab,
-  Link
+  MenuItem, Toolbar
 } from "@material-ui/core";
 import {
-  Menu as MenuIcon,
-  MailOutline as MailIcon,
-  NotificationsNone as NotificationsIcon,
+  ArrowBack as ArrowBackIcon, MailOutline as MailIcon, Menu as MenuIcon, NotificationsNone as NotificationsIcon,
   Person as AccountIcon,
   Search as SearchIcon,
-  Send as SendIcon,
-  ArrowBack as ArrowBackIcon,
+  Send as SendIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
+import { useState } from "react";
 
 // styles
 import useStyles from "./styles";
 
 // components
-import { Badge, Typography, Button } from "../Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
+import { Badge, Typography } from "../Wrappers";
 
 // context
 import {
-  useLayoutState,
-  useLayoutDispatch,
-  toggleSidebar,
+  toggleSidebar, useLayoutDispatch, useLayoutState
 } from "../../context/LayoutContext";
-import { useUserDispatch, signOut } from "../../context/UserContext";
+import { signOut, useUserDispatch, useUserState } from "../../context/UserContext";
 
 const messages = [
   {
@@ -96,7 +87,8 @@ export default function Header(props) {
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var userDispatch = useUserDispatch();
-
+  var { userName } = useUserState();
+  var { userEmail } = useUserState();
   // local
   var [mailMenu, setMailMenu] = useState(null);
   var [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -104,7 +96,6 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
-
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -140,7 +131,7 @@ export default function Header(props) {
           React Material Admin
         </Typography>
         <div className={classes.grow} />
-        <Button component={Link} href="https://flatlogic.com/templates/react-material-admin-full" variant={"outlined"} color={"secondary"} className={classes.purchaseBtn}>Unlock full version</Button>
+
         <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
@@ -289,15 +280,15 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              {userName}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
               component="a"
               color="primary"
-              href="https://flatlogic.com"
+              href=""
             >
-              Flalogic.com
+              {userEmail}
             </Typography>
           </div>
           <MenuItem
