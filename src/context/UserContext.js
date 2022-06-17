@@ -8,8 +8,6 @@ function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN_SUCCESS":
       return { ...state, isAuthenticated: true, userName: action.name, userEmail: action.email };
-    case "USER_DATA":
-      return { ...state, name: action.payload }
     case "SIGN_OUT_SUCCESS":
       return { ...state, isAuthenticated: false };
     default: {
@@ -54,7 +52,7 @@ export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
 
 function loginUser(dispatch, email, password, history, setIsLoading, setError) {
   setError(false);
-  setIsLoading(true); console.log("TEST:", email, password)
+  setIsLoading(true);
   try {
     (async () => {
       const { data } = await booksApi.post('signin', { email, password })
@@ -66,7 +64,6 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
     setIsLoading(false)
     dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true, name: user.data.name, email: user.data.email })
     history.push('/app/dashboard')
-
   }) ();
 } catch (error) {
   setError(true);
@@ -89,10 +86,6 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
   //   setError(true);
   //   setIsLoading(false);
   // }
-}
-
-function getUserById(dispatch, token) {
-
 }
 
 function signOut(dispatch, history) {
