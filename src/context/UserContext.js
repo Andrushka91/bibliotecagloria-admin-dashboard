@@ -7,7 +7,9 @@ var UserDispatchContext = React.createContext();
 function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { ...state, isAuthenticated: true, userName: action.name, userEmail: action.email };
+      return { ...state, isAuthenticated: true };
+    case "LOGIN_FAILURE":
+      return { ...state, isAuthenticated: false };
     case "SIGN_OUT_SUCCESS":
       return { ...state, isAuthenticated: false };
     default: {
@@ -53,40 +55,44 @@ export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
 function loginUser(dispatch, email, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
-  try {
-    (async () => {
-      const { data } = await booksApi.post('signin', { email, password })
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('email', email);
-      const user = await booksApi.get('/getUser', { headers:{ 'token': data.token }})
-     
-    setError(null)
-    setIsLoading(false)
-    dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true, name: user.data.name, email: user.data.email })
-    history.push('/app/dashboard')
-  }) ();
-} catch (error) {
-  setError(true);
-  setIsLoading(false);
-  dispatch({ type: 'LOGIN_FAILURE', PisAuthenticated: false })
-  console.log("ERROR:", error);
+
+  (
+    async () => {
+      try {
+        const { data } = await booksApi.post('signin', { email, password })
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('email', email);
+        const user = await booksApi.get('/getUser', { headers: { 'token': data.token } })
+        localStorage.setItem('name', user.data.name);
+        setError(null)
+        setIsLoading(false)
+        dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true })
+        history.push('/app/dashboard')
+      } catch (error) {
+        console.log("ERROR:", error);
+        setError(true);
+        setIsLoading(false);
+        dispatch({ type: 'LOGIN_FAILURE', isAuthenticated: false })
+      }
+    }
+  )();
 }
 
-  // if (!!login && !!password) {
-  //   setTimeout(() => {
-  //     localStorage.setItem('id_token', 1)
-  //     setError(null)
-  //     setIsLoading(false)
-  //     dispatch({ type: 'LOGIN_SUCCESS' })
+// if (!!login && !!password) {
+//   setTimeout(() => {
+//     localStorage.setItem('id_token', 1)
+//     setError(null)
+//     setIsLoading(false)
+//     dispatch({ type: 'LOGIN_SUCCESS' })
 
-  //     history.push('/app/dashboard')
-  //   }, 2000);
-  // } else {
-  //   dispatch({ type: "LOGIN_FAILURE" });
-  //   setError(true);
-  //   setIsLoading(false);
-  // }
-}
+//     history.push('/app/dashboard')
+//   }, 2000);
+// } else {
+//   dispatch({ type: "LOGIN_FAILURE" });
+//   setError(true);
+//   setIsLoading(false);
+// }
+
 
 function signOut(dispatch, history) {
   localStorage.removeItem("token");

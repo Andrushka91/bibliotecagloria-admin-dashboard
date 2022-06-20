@@ -2,7 +2,7 @@ import React from "react";
 import {
   withStyles,
   Badge as BadgeBase,
-  Typography as TypographyBase,
+  List as BookListBase,
   Button as ButtonBase,
 } from "@material-ui/core";
 import { useTheme, makeStyles } from "@material-ui/styles";
@@ -42,7 +42,7 @@ function Badge({ children, colorBrightness, color, ...props }) {
   );
 }
 
-function Typography({
+function BookList({
   children,
   weight,
   size,
@@ -53,7 +53,7 @@ function Typography({
   var theme = useTheme();
 
   return (
-    <TypographyBase
+    <BookListBase
       style={{
         color: getColor(color, theme, colorBrightness),
         fontWeight: getFontWeight(weight),
@@ -62,7 +62,7 @@ function Typography({
       {...props}
     >
       {children}
-    </TypographyBase>
+    </BookListBase>
   );
 }
 
@@ -119,7 +119,7 @@ function Button({ children, color, className, ...props }) {
   );
 }
 
-export { Badge, Typography, Button };
+export { Badge, BookList, Button };
 
 // ########################################################################
 
@@ -164,9 +164,9 @@ function getFontSize(size, variant = "", theme) {
   }
 
   var defaultSize =
-    variant && theme.typography[variant]
-      ? theme.typography[variant].fontSize
-      : theme.typography.fontSize + "px";
+    variant && theme.BookList[variant]
+      ? theme.BookList[variant].fontSize
+      : theme.BookList.fontSize + "px";
 
   return `calc(${defaultSize} * ${multiplier})`;
 }

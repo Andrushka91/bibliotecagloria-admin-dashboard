@@ -10,7 +10,7 @@ import useStyles from "./styles";
 
 // components
 import Widget from "../../../../components/Widget";
-import { Typography } from "../../../../components/Wrappers";
+import { BookList } from "../../../../components/Wrappers";
 
 export default function BigStat(props) {
   var { product, total, color, registrations, bounce } = props;
@@ -24,7 +24,7 @@ export default function BigStat(props) {
     <Widget
       header={
         <div className={classes.title}>
-          <Typography variant="h5">{product}</Typography>
+          <BookList variant="h5">{product}</BookList>
 
           <Select
             value={value}
@@ -48,13 +48,13 @@ export default function BigStat(props) {
     >
       <div className={classes.totalValueContainer}>
         <div className={classes.totalValue}>
-          <Typography size="xxl" color="text" colorBrightness="secondary">
+          <BookList size="xxl" color="text" colorBrightness="secondary">
             {total[value]}
-          </Typography>
-          <Typography color={total.percent.profit ? "success" : "secondary"}>
+          </BookList>
+          <BookList color={total.percent.profit ? "success" : "secondary"}>
             &nbsp;{total.percent.profit ? "+" : "-"}
             {total.percent.value}%
-          </Typography>
+          </BookList>
         </div>
         <BarChart width={150} height={70} data={getRandomData()}>
           <Bar
@@ -68,44 +68,44 @@ export default function BigStat(props) {
       <div className={classes.bottomStatsContainer}>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{registrations[value].value}</Typography>
+            <BookList variant="h6">{registrations[value].value}</BookList>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
                 [!registrations[value].profit]: classes.profitArrowDanger,
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <BookList size="sm" color="text" colorBrightness="secondary">
             Registrations
-          </Typography>
+          </BookList>
         </div>
         <div className={classes.statCell}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{bounce[value].value}%</Typography>
+            <BookList variant="h6">{bounce[value].value}%</BookList>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
                 [!registrations[value].profit]: classes.profitArrowDanger,
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <BookList size="sm" color="text" colorBrightness="secondary">
             Bounce Rate
-          </Typography>
+          </BookList>
         </div>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
-            <Typography variant="h6">
+            <BookList variant="h6">
               {registrations[value].value * 10}
-            </Typography>
+            </BookList>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
                 [classes.profitArrowDanger]: !registrations[value].profit,
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <BookList size="sm" color="text" colorBrightness="secondary">
             Views
-          </Typography>
+          </BookList>
         </div>
       </div>
     </Widget>

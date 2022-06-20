@@ -23,7 +23,7 @@ import tinycolor from "tinycolor2";
 import useStyles from "./styles";
 
 // components
-import { Typography } from "../Wrappers";
+import { BookList } from "../Wrappers";
 
 const typesIcons = {
   "e-commerce": <ShoppingCartIcon />,
@@ -88,15 +88,15 @@ export default function Notification({ variant, ...props }) {
         {iconWithStyles}
       </div>
       <div className={classes.messageContainer}>
-        <Typography
+        <BookList
           className={classnames({
-            [classes.containedTypography]: variant === "contained",
+            [classes.containedBookList]: variant === "contained",
           })}
-          variant={props.typographyVariant}
-          size={variant !== "contained" && !props.typographyVariant && "md"}
+          variant={props.BookListVariant}
+          size={variant !== "contained" && !props.BookListVariant && "md"}
         >
           {props.message}
-        </Typography>
+        </BookList>
         {props.extraButton && props.extraButtonClick && (
           <Button
             onClick={props.extraButtonClick}

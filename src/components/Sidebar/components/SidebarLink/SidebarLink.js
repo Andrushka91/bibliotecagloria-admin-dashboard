@@ -1,16 +1,15 @@
-import React, { useState } from "react";
 import {
-  Collapse,
+  List as BookList, Collapse,
   Divider,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  Typography,
+  ListItemText
 } from "@material-ui/core";
 import { Inbox as InboxIcon } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import classnames from "classnames";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // styles
 import useStyles from "./styles";
@@ -38,13 +37,13 @@ export default function SidebarLink({
 
   if (type === "title")
     return (
-      <Typography
+      <BookList
         className={classnames(classes.linkText, classes.sectionTitle, {
           [classes.linkTextHidden]: !isSidebarOpened,
         })}
       >
         {label}
-      </Typography>
+      </BookList>
     );
 
   if (type === "divider") return <Divider className={classes.divider} />;

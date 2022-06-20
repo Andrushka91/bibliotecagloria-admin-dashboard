@@ -29,7 +29,7 @@ import useStyles from "./styles";
 import mock from "./mock";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
-import { Typography } from "../../components/Wrappers";
+import { BookList } from "../../components/Wrappers";
 import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
@@ -69,9 +69,9 @@ export default function Dashboard(props) {
             <div className={classes.visitsNumberContainer}>
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
-              <Typography size="xl" weight="medium" noWrap>
+              <BookList size="xl" weight="medium" noWrap>
                 12, 678
-              </Typography>
+              </BookList>
                 </Grid>
                 <Grid item xs={6}>
               <LineChart
@@ -103,22 +103,22 @@ export default function Dashboard(props) {
               alignItems="center"
             >
               <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary" noWrap>
                   Registrations
-                </Typography>
-                <Typography size="md">860</Typography>
+                </BookList>
+                <BookList size="md">860</BookList>
               </Grid>
               <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary" noWrap>
                   Sign Out
-                </Typography>
-                <Typography size="md">32</Typography>
+                </BookList>
+                <BookList size="md">32</BookList>
               </Grid>
               <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary" noWrap>
                   Rate
-                </Typography>
-                <Typography size="md">3.25%</Typography>
+                </BookList>
+                <BookList size="md">3.25%</BookList>
               </Grid>
             </Grid>
           </Widget>
@@ -133,34 +133,34 @@ export default function Dashboard(props) {
             <div className={classes.performanceLegendWrapper}>
               <div className={classes.legendElement}>
                 <Dot color="warning" />
-                <Typography
+                <BookList
                   color="text"
                   colorBrightness="secondary"
                   className={classes.legendElementText}
                 >
                   Integration
-                </Typography>
+                </BookList>
               </div>
               <div className={classes.legendElement}>
                 <Dot color="primary" />
-                <Typography
+                <BookList
                   color="text"
                   colorBrightness="secondary"
                   className={classes.legendElementText}
                 >
                   SDK
-                </Typography>
+                </BookList>
               </div>
             </div>
             <div className={classes.progressSection}>
-              <Typography
+              <BookList
                 size="md"
                 color="text"
                 colorBrightness="secondary"
                 className={classes.progressSectionTitle}
               >
                 Integration
-              </Typography>
+              </BookList>
               <LinearProgress
                 variant="determinate"
                 value={77}
@@ -169,14 +169,14 @@ export default function Dashboard(props) {
               />
             </div>
             <div>
-              <Typography
+              <BookList
                 size="md"
                 color="text"
                 colorBrightness="secondary"
                 className={classes.progressSectionTitle}
               >
                 SDK
-              </Typography>
+              </BookList>
               <LinearProgress
                 variant="determinate"
                 value={73}
@@ -194,14 +194,14 @@ export default function Dashboard(props) {
             bodyClass={classes.fullHeightBody}
           >
             <div className={classes.serverOverviewElement}>
-              <Typography
+              <BookList
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
                 noWrap
               >
                 60% / 37°С / 3.3 Ghz
-              </Typography>
+              </BookList>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
@@ -218,14 +218,14 @@ export default function Dashboard(props) {
               </div>
             </div>
             <div className={classes.serverOverviewElement}>
-              <Typography
+              <BookList
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
                 noWrap
               >
                 54% / 31°С / 3.3 Ghz
-              </Typography>
+              </BookList>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
@@ -242,14 +242,14 @@ export default function Dashboard(props) {
               </div>
             </div>
             <div className={classes.serverOverviewElement}>
-              <Typography
+              <BookList
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
                 noWrap
               >
                 57% / 21°С / 3.3 Ghz
-              </Typography>
+              </BookList>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
@@ -294,12 +294,12 @@ export default function Dashboard(props) {
                   {PieChartData.map(({ name, value, color }, index) => (
                     <div key={color} className={classes.legendItemContainer}>
                       <Dot color={color} />
-                      <Typography style={{ whiteSpace: "nowrap", fontSize: 12 }} >
+                      <BookList style={{ whiteSpace: "nowrap", fontSize: 12 }} >
                         &nbsp;{name}&nbsp;
-                      </Typography>
-                      <Typography color="text" colorBrightness="secondary">
+                      </BookList>
+                      <BookList color="text" colorBrightness="secondary">
                         &nbsp;{value}
-                      </Typography>
+                      </BookList>
                     </div>
                   ))}
                 </div>
@@ -312,31 +312,31 @@ export default function Dashboard(props) {
             bodyClass={classes.mainChartBody}
             header={
               <div className={classes.mainChartHeader}>
-                <Typography
+                <BookList
                   variant="h5"
                   color="text"
                   colorBrightness="secondary"
                 >
                   Daily Line Chart
-                </Typography>
+                </BookList>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="warning" />
-                    <Typography className={classes.mainChartLegentElement}>
+                    <BookList className={classes.mainChartLegentElement}>
                       Tablet
-                    </Typography>
+                    </BookList>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>
+                    <BookList className={classes.mainChartLegentElement}>
                       Mobile
-                    </Typography>
+                    </BookList>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="secondary" />
-                    <Typography className={classes.mainChartLegentElement}>
+                    <BookList className={classes.mainChartLegentElement}>
                       Desktop
-                    </Typography>
+                    </BookList>
                   </div>
                 </div>
                 <Select

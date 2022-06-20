@@ -14,7 +14,7 @@ import useStyles from "./styles";
 import Widget from "../../components/Widget/Widget";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Notification from "../../components/Notification";
-import { Typography, Button } from "../../components/Wrappers/Wrappers";
+import { BookList, Button } from "../../components/Wrappers/Wrappers";
 
 const positions = [
   toast.POSITION.TOP_LEFT,
@@ -49,10 +49,10 @@ export default function NotificationsPage(props) {
           <Grid container item xs={12}>
           <Grid item xs={4}>
           <Widget title="Layout Options" noWidgetShadow disableWidgetMenu noBodyPadding noHeaderPadding style={{paddingRight: 15}} headerClass={classes.widgetHeader}>
-            <Typography>
+            <BookList>
               There are few position options available for notifications. You
               can click any of them to change notifications position:
-            </Typography>
+            </BookList>
             <div className={classes.layoutContainer}>
               <div className={classes.layoutButtonsRow}>
                 <button
@@ -74,9 +74,9 @@ export default function NotificationsPage(props) {
                   })}
                 />
               </div>
-              <Typography className={classes.layoutText} size="md">
+              <BookList className={classes.layoutText} size="md">
                 Click any position
-              </Typography>
+              </BookList>
               <div className={classes.layoutButtonsRow}>
                 <button
                   onClick={() => changeNotificationPosition(3)}
@@ -102,10 +102,10 @@ export default function NotificationsPage(props) {
             </Grid>
             <Grid item xs={4}>
           <Widget title="Notifications Types" disableWidgetMenu noBodyPadding noWidgetShadow noHeaderPadding style={{paddingRight: 15}} headerClass={classes.widgetHeader}>
-            <Typography>
+            <BookList>
               Different types of notifications for lost of use cases. Custom
               classes are also supported.
-            </Typography>
+            </BookList>
             <div className={classes.buttonsContainer}>
               <Button
                 variant="contained"
@@ -136,12 +136,12 @@ export default function NotificationsPage(props) {
             </Grid>
             <Grid item xs={4}>
           <Widget title="Usage" disableWidgetMenu noBodyPadding noWidgetShadow noHeaderPadding style={{paddingRight: 15}} headerClass={classes.widgetHeader}>
-            <Typography>
+            <BookList>
               Notifications are created with the help of{" "}
               <a href="https://github.com/fkhadra/react-toastify">
                 react-toastify
               </a>
-            </Typography>
+            </BookList>
             <div className={classes.codeContainer}>
               <SyntaxHighlighter
                 className={classes.codeComponent}
@@ -161,9 +161,9 @@ export default function NotificationsPage(props) {
     </div>
   };
             `}</SyntaxHighlighter>
-              <Typography variant="caption">
+              <BookList variant="caption">
                 For more API information refer to the library documentation
-              </Typography>
+              </BookList>
             </div>
           </Widget>
             </Grid>

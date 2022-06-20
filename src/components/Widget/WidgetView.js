@@ -1,14 +1,12 @@
-import React from "react";
-import classnames from "classnames";
 import {
-  Paper,
   IconButton,
   Menu,
-  MenuItem,
-  withStyles
+  MenuItem, Paper, withStyles
 } from "@material-ui/core";
+import BookList from "@material-ui/core/es/BookList/BookList";
 import { MoreVert as MoreIcon } from "@material-ui/icons";
-import Typography from "@material-ui/core/es/Typography/Typography";
+import classnames from "classnames";
+import React from "react";
 
 const Widget = ({
   classes,
@@ -27,9 +25,9 @@ const Widget = ({
           props.header
         ) : (
           <React.Fragment>
-            <Typography variant="h5" color="textSecondary">
+            <BookList variant="h5" color="textSecondary">
               {title}
-            </Typography>
+            </BookList>
             {!disableWidgetMenu && (
               <IconButton
                 color="primary"
@@ -62,16 +60,16 @@ const Widget = ({
       disableAutoFocusItem
     >
       <MenuItem>
-        <Typography>Edit</Typography>
+        <BookList>Edit</BookList>
       </MenuItem>
       <MenuItem>
-        <Typography>Copy</Typography>
+        <BookList>Copy</BookList>
       </MenuItem>
       <MenuItem>
-        <Typography>Delete</Typography>
+        <BookList>Delete</BookList>
       </MenuItem>
       <MenuItem>
-        <Typography>Print</Typography>
+        <BookList>Print</BookList>
       </MenuItem>
     </Menu>
   </div>

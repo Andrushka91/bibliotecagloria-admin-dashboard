@@ -29,7 +29,7 @@ export default makeStyles(theme => ({
   notificationIconContainerRounded: {
     marginRight: theme.spacing(2),
   },
-  containedTypography: {
+  containedBookList: {
     color: "white",
   },
   messageContainer: {

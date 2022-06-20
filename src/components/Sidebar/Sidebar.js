@@ -1,41 +1,31 @@
-import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
-  Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
-  HelpOutline as FAQIcon,
-  ArrowBack as ArrowBackIcon,
+  ArrowBack as ArrowBackIcon, BorderAll as TableIcon, FilterNone as UIElementsIcon, List as BookListIcon, HelpOutline as FAQIcon, Home as HomeIcon, LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon, QuestionAnswer as SupportIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
-import { withRouter } from "react-router-dom";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 
 // styles
 import useStyles from "./styles";
 
 // components
-import SidebarLink from "./components/SidebarLink/SidebarLink";
 import Dot from "./components/Dot";
+import SidebarLink from "./components/SidebarLink/SidebarLink";
 
 // context
 import {
-  useLayoutState,
-  useLayoutDispatch,
-  toggleSidebar,
+  toggleSidebar, useLayoutDispatch, useLayoutState
 } from "../../context/LayoutContext";
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 1,
-    label: "Typography",
-    link: "/app/typography",
-    icon: <TypographyIcon />,
+    label: "BookList",
+    link: "/app/BookList",
+    icon: <BookListIcon />,
   },
   { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
   {

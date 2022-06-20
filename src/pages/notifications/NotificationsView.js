@@ -1,17 +1,17 @@
-import React from 'react';
 import { Grid, withStyles } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 import classnames from 'classnames';
-import { ToastContainer } from 'react-toastify';
+import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import tinycolor from 'tinycolor2';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import tinycolor from 'tinycolor2';
 
-import Widget from '../../components/Widget';
-import PageTitle from '../../components/PageTitle';
 import NotificationCustomComponent from '../../components/Notification';
-import { Typography, Button } from '../../components/Wrappers';
+import PageTitle from '../../components/PageTitle';
+import Widget from '../../components/Widget';
+import { BookList, Button } from '../../components/Wrappers';
 
 const CloseButton = ({ closeToast, className }) => (
   <CloseIcon
@@ -27,14 +27,14 @@ const NotificationsPage = ({ classes, ...props}) => (
       <ToastContainer className={classes.toastsContainer} closeButton={<CloseButton className={classes.notificationCloseButton} />} closeOnClick={false} progressClassName={classes.notificationProgress} />
       <Grid item xs={12} md={6} lg={4}>
         <Widget title="Layout Options" disableWidgetMenu>
-          <Typography>There are few position options available for notifications. You can click any of them to change notifications position:</Typography>
+          <BookList>There are few position options available for notifications. You can click any of them to change notifications position:</BookList>
           <div className={classes.layoutContainer}>
             <div className={classes.layoutButtonsRow}>
               <button onClick={() => props.changeNotificationPosition(0)} className={classnames(classes.layoutButton, { [classes.layoutButtonActive]: props.notificationsPosition === 0})} />
               <button onClick={() => props.changeNotificationPosition(1)} className={classnames(classes.layoutButton, { [classes.layoutButtonActive]: props.notificationsPosition === 1})} />
               <button onClick={() => props.changeNotificationPosition(2)} className={classnames(classes.layoutButton, { [classes.layoutButtonActive]: props.notificationsPosition === 2})} />
             </div>
-            <Typography className={classes.layoutText} size="md">Click any position</Typography>
+            <BookList className={classes.layoutText} size="md">Click any position</BookList>
             <div className={classes.layoutButtonsRow}>
               <button onClick={() => props.changeNotificationPosition(3)} className={classnames(classes.layoutButton, { [classes.layoutButtonActive]: props.notificationsPosition === 3})} />
               <button onClick={() => props.changeNotificationPosition(4)} className={classnames(classes.layoutButton, { [classes.layoutButtonActive]: props.notificationsPosition === 4})} />
@@ -45,7 +45,7 @@ const NotificationsPage = ({ classes, ...props}) => (
       </Grid>
       <Grid item xs={12} md={6} lg={4}>
         <Widget title="Notifications Types" disableWidgetMenu>
-          <Typography>Different types of notifications for lost of use cases. Custom classes are also supported.</Typography>
+          <BookList>Different types of notifications for lost of use cases. Custom classes are also supported.</BookList>
           <div className={classes.buttonsContainer}>
             <Button variant="contained" colortheme="primary" onClick={() => props.handleNotificationCall('info')} className={classnames(classes.notificationCallButton)}>Info Message</Button>
             <Button variant="contained" colortheme="warning" onClick={() => props.handleNotificationCall('error')} className={classnames(classes.notificationCallButton)}>Error + Retry Message</Button>
@@ -55,7 +55,7 @@ const NotificationsPage = ({ classes, ...props}) => (
       </Grid>
       <Grid item xs={12} md={6} lg={4}>
         <Widget title="Usage" disableWidgetMenu>
-          <Typography>Notifications are created with the help of <a href="https://github.com/fkhadra/react-toastify">react-toastify</a></Typography>
+          <BookList>Notifications are created with the help of <a href="https://github.com/fkhadra/react-toastify">react-toastify</a></BookList>
           <div className={classes.codeContainer}>
             <SyntaxHighlighter className={classes.codeComponent} language='javascript' style={docco}>{`
   // import needed components, functions and styles
@@ -71,7 +71,7 @@ const NotificationsPage = ({ classes, ...props}) => (
     </div>
   };
             `}</SyntaxHighlighter>
-            <Typography variant="caption">For more API information refer to the library documentation</Typography>
+            <BookList variant="caption">For more API information refer to the library documentation</BookList>
           </div>
         </Widget>
       </Grid>

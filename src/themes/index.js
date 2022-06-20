@@ -1,9 +1,9 @@
 import defaultTheme from "./default";
 
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from '@material-ui/core/styles';
 
 const overrides = {
-  typography: {
+  BookList: {
     h1: {
       fontSize: "3rem",
     },
@@ -26,7 +26,7 @@ const overrides = {
 };
 
 const themes = {
-  default: createMuiTheme({ ...defaultTheme, ...overrides }),
+  default: createTheme({ ...defaultTheme, ...overrides }),
 };
 
 export default themes;

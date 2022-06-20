@@ -1,21 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import ReactDOM from "react-dom";
 
-import Themes from "./themes";
 import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
+import { Provider as BooksProvider } from './context/BooksContext';
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
+
+import * as serviceWorker from "./serviceWorker";
+import Themes from "./themes";
 
 ReactDOM.render(
   <LayoutProvider>
     <UserProvider>
-      <ThemeProvider theme={Themes.default}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
+      <BooksProvider>
+        <ThemeProvider theme={Themes.default}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </BooksProvider>
     </UserProvider>
   </LayoutProvider>,
   document.getElementById("root"),

@@ -19,13 +19,13 @@ import useStyles from "./styles";
 // components
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
-import { Badge, Typography } from "../Wrappers";
+import { Badge, BookList } from "../Wrappers";
 
 // context
 import {
   toggleSidebar, useLayoutDispatch, useLayoutState
 } from "../../context/LayoutContext";
-import { signOut, useUserDispatch, useUserState } from "../../context/UserContext";
+import { signOut, useUserDispatch } from "../../context/UserContext";
 
 const messages = [
   {
@@ -87,8 +87,8 @@ export default function Header(props) {
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var userDispatch = useUserDispatch();
-  var { userName } = useUserState();
-  var { userEmail } = useUserState();
+  var userName = localStorage.getItem('name');
+  var userEmail = localStorage.getItem('email');
   // local
   var [mailMenu, setMailMenu] = useState(null);
   var [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -127,9 +127,9 @@ export default function Header(props) {
             />
           )}
         </IconButton>
-        <Typography variant="h6" weight="medium" className={classes.logotype}>
-          React Material Admin
-        </Typography>
+        <BookList variant="h6" weight="medium" className={classes.logotype}>
+          Gestionare Bibliotecă Gloria
+        </BookList>
         <div className={classes.grow} />
 
         <div
@@ -207,24 +207,24 @@ export default function Header(props) {
           disableAutoFocusItem
         >
           <div className={classes.profileMenuUser}>
-            <Typography variant="h4" weight="medium">
+            <BookList variant="h4" weight="medium">
               New Messages
-            </Typography>
-            <Typography
+            </BookList>
+            <BookList
               className={classes.profileMenuLink}
               component="a"
               color="secondary"
             >
               {messages.length} New Messages
-            </Typography>
+            </BookList>
           </div>
           {messages.map(message => (
             <MenuItem key={message.id} className={classes.messageNotification}>
               <div className={classes.messageNotificationSide}>
                 <UserAvatar color={message.variant} name={message.name} />
-                <Typography size="sm" color="text" colorBrightness="secondary">
+                <BookList size="sm" color="text" colorBrightness="secondary">
                   {message.time}
-                </Typography>
+                </BookList>
               </div>
               <div
                 className={classNames(
@@ -232,12 +232,12 @@ export default function Header(props) {
                   classes.messageNotificationBodySide,
                 )}
               >
-                <Typography weight="medium" gutterBottom>
+                <BookList weight="medium" gutterBottom>
                   {message.name}
-                </Typography>
-                <Typography color="text" colorBrightness="secondary">
+                </BookList>
+                <BookList color="text" colorBrightness="secondary">
                   {message.message}
-                </Typography>
+                </BookList>
               </div>
             </MenuItem>
           ))}
@@ -265,7 +265,7 @@ export default function Header(props) {
               onClick={() => setNotificationsMenu(null)}
               className={classes.headerMenuItem}
             >
-              <Notification {...notification} typographyVariant="inherit" />
+              <Notification {...notification} BookListVariant="inherit" />
             </MenuItem>
           ))}
         </Menu>
@@ -279,17 +279,17 @@ export default function Header(props) {
           disableAutoFocusItem
         >
           <div className={classes.profileMenuUser}>
-            <Typography variant="h4" weight="medium">
+            <BookList variant="h4" weight="medium">
               {userName}
-            </Typography>
-            <Typography
+            </BookList>
+            <BookList
               className={classes.profileMenuLink}
               component="a"
               color="primary"
               href=""
             >
               {userEmail}
-            </Typography>
+            </BookList>
           </div>
           <MenuItem
             className={classNames(
@@ -316,13 +316,13 @@ export default function Header(props) {
             <AccountIcon className={classes.profileMenuIcon} /> Messages
           </MenuItem>
           <div className={classes.profileMenuUser}>
-            <Typography
+            <BookList
               className={classes.profileMenuLink}
               color="primary"
               onClick={() => signOut(userDispatch, props.history)}
             >
               Sign Out
-            </Typography>
+            </BookList>
           </div>
         </Menu>
       </Toolbar>

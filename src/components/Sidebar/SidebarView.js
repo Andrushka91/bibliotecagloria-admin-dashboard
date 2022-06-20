@@ -1,28 +1,20 @@
-import React from 'react';
 import {
   Drawer,
   IconButton,
   List,
-  withStyles } from "@material-ui/core";
+  withStyles
+} from "@material-ui/core";
 import {
-  Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
-  HelpOutline as FAQIcon,
-  ArrowBack as ArrowBackIcon,
+  ArrowBack as ArrowBackIcon, BorderAll as TableIcon, FilterNone as UIElementsIcon, FormatSize as BookListIcon, HelpOutline as FAQIcon, Home as HomeIcon, LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon, QuestionAnswer as SupportIcon
 } from "@material-ui/icons";
 import classNames from 'classnames';
 
-import SidebarLink from './components/SidebarLink/SidebarLinkContainer';
 import Dot from './components/Dot';
+import SidebarLink from './components/SidebarLink/SidebarLinkContainer';
 
 const structure = [
   { id: 0, label: 'Dashboard', link: '/app/dashboard', icon: <HomeIcon /> },
-  { id: 1, label: 'Typography', link: '/app/typography', icon: <TypographyIcon /> },
+  { id: 1, label: 'BookList', link: '/app/BookList', icon: <BookListIcon /> },
   { id: 2, label: 'Tables', link: '/app/tables', icon: <TableIcon /> },
   { id: 3, label: 'Notifications', link: '/app/notifications', icon: <NotificationsIcon />},
   {

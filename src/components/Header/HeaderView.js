@@ -1,29 +1,21 @@
-import React from "react";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
+  AppBar, Fab, IconButton,
   InputBase,
   Menu,
-  MenuItem,
-  Fab,
-  withStyles
+  MenuItem, Toolbar, withStyles
 } from "@material-ui/core";
+import { alpha } from "@material-ui/core/styles";
 import {
-  Menu as MenuIcon,
-  MailOutline as MailIcon,
-  NotificationsNone as NotificationsIcon,
+  ArrowBack as ArrowBackIcon, MailOutline as MailIcon, Menu as MenuIcon, NotificationsNone as NotificationsIcon,
   Person as AccountIcon,
   Search as SearchIcon,
-  Send as SendIcon,
-  ArrowBack as ArrowBackIcon
+  Send as SendIcon
 } from "@material-ui/icons";
-import { fade } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
 
-import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification";
 import UserAvatar from "../UserAvatar";
+import { Badge, BookList } from "../Wrappers";
 
 const messages = [
   {
@@ -103,7 +95,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           />
         )}
       </IconButton>
-      <Typography variant="h6" weight="medium" className={classes.logotype}>React Material Admin</Typography>
+      <BookList variant="h6" weight="medium" className={classes.logotype}>Gestionare Bibliotecă Gloria</BookList>
       <div className={classes.grow} />
       <div
         className={classNames(classes.search, {
@@ -176,24 +168,24 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
         disableAutoFocusItem
       >
         <div className={classes.profileMenuUser}>
-          <Typography variant="h4" weight="medium">
+          <BookList variant="h4" weight="medium">
             New Messages
-          </Typography>
-          <Typography
+          </BookList>
+          <BookList
             className={classes.profileMenuLink}
             component="a"
             color="secondary"
           >
             {messages.length} New Messages
-          </Typography>
+          </BookList>
         </div>
         {messages.map(message => (
           <MenuItem key={message.id} className={classes.messageNotification}>
             <div className={classes.messageNotificationSide}>
               <UserAvatar color={message.variant} name={message.name} />
-              <Typography size="sm" color="textSecondary">
+              <BookList size="sm" color="textSecondary">
                 {message.time}
-              </Typography>
+              </BookList>
             </div>
             <div
               className={classNames(
@@ -201,10 +193,10 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
                 classes.messageNotificationBodySide
               )}
             >
-              <Typography weight="medium" gutterBottom>
+              <BookList weight="medium" gutterBottom>
                 {message.name}
-              </Typography>
-              <Typography color="textSecondary">{message.message}</Typography>
+              </BookList>
+              <BookList color="textSecondary">{message.message}</BookList>
             </div>
           </MenuItem>
         ))}
@@ -232,7 +224,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
             onClick={props.closeNotificationsMenu}
             className={classes.headerMenuItem}
           >
-            <Notification {...notification} typographyVariant="inherit" />
+            <Notification {...notification} BookListVariant="inherit" />
           </MenuItem>
         ))}
       </Menu>
@@ -246,17 +238,17 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
         disableAutoFocusItem
       >
         <div className={classes.profileMenuUser}>
-          <Typography variant="h4" weight="medium">
+          <BookList variant="h4" weight="medium">
             John Smith
-          </Typography>
-          <Typography
+          </BookList>
+          <BookList
             className={classes.profileMenuLink}
             component="a"
             color="primary"
             href="https://flatlogic.com"
           >
             Flalogic.com
-          </Typography>
+          </BookList>
         </div>
         <MenuItem
           className={classNames(
@@ -283,13 +275,13 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           <AccountIcon className={classes.profileMenuIcon} /> Messages
         </MenuItem>
         <div className={classes.profileMenuUser}>
-          <Typography
+          <BookList
             className={classes.profileMenuLink}
             color="primary"
             onClick={props.signOut}
           >
             Sign Out
-          </Typography>
+          </BookList>
         </div>
       </Menu>
     </Toolbar>
@@ -331,15 +323,15 @@ const styles = theme => ({
     borderRadius: 25,
     paddingLeft: theme.spacing.unit * 2.5,
     width: 36,
-    backgroundColor: fade(theme.palette.common.black, 0),
+    backgroundColor: alpha(theme.palette.common.black, 0),
     transition: theme.transitions.create(["background-color", "width"]),
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: fade(theme.palette.common.black, 0.08)
+      backgroundColor: alpha(theme.palette.common.black, 0.08)
     }
   },
   searchFocused: {
-    backgroundColor: fade(theme.palette.common.black, 0.08),
+    backgroundColor: alpha(theme.palette.common.black, 0.08),
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: 250

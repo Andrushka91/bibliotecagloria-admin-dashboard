@@ -1,20 +1,15 @@
-import React from "react";
-import {
-  Route,
-  Switch,
-  Redirect,
-  withRouter,
-} from "react-router-dom";
+import { Box, IconButton, Link } from '@material-ui/core';
+import Icon from '@mdi/react';
 import classnames from "classnames";
-import {Box, IconButton, Link} from '@material-ui/core'
-import Icon from '@mdi/react'
+import {
+  Redirect, Route,
+  Switch, withRouter
+} from "react-router-dom";
 
 //icons
 import {
-  mdiFacebook as FacebookIcon,
-  mdiTwitter as TwitterIcon,
-  mdiGithub as GithubIcon,
-} from '@mdi/js'
+  mdiFacebook as FacebookIcon, mdiGithub as GithubIcon, mdiTwitter as TwitterIcon
+} from '@mdi/js';
 
 // styles
 import useStyles from "./styles";
@@ -24,13 +19,13 @@ import Header from "../Header";
 import Sidebar from "../Sidebar";
 
 // pages
-import Dashboard from "../../pages/dashboard";
-import Typography from "../../pages/typography";
-import Notifications from "../../pages/notifications";
-import Maps from "../../pages/maps";
-import Tables from "../../pages/tables";
-import Icons from "../../pages/icons";
+import BookList from "../../pages/BookList/BookList";
 import Charts from "../../pages/charts";
+import Dashboard from "../../pages/dashboard";
+import Icons from "../../pages/icons";
+import Maps from "../../pages/maps";
+import Notifications from "../../pages/notifications";
+import Tables from "../../pages/tables";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -54,7 +49,7 @@ function Layout(props) {
             <div className={classes.fakeToolbar} />
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/typography" component={Typography} />
+              <Route path="/app/BookList" component={BookList} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route

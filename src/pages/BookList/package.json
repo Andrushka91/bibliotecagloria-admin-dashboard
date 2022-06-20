@@ -1,0 +1,6 @@
+{
+  "name": "BookList",
+  "version": "0.0.0",
+  "main": "BookList.js",
+  "private": true
+}
