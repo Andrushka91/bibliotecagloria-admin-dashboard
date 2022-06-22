@@ -3,6 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { createRoot } from 'react-dom/client';
 import App from "./components/App";
 import { Provider as BooksProvider } from './context/BooksContext';
+import { Provider as OrdersProvider } from './context/OrdersContext';
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
 
@@ -16,10 +17,12 @@ root.render(
   <LayoutProvider>
     <UserProvider>
       <BooksProvider>
-        <ThemeProvider theme={Themes.default}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
+        <OrdersProvider>
+          <ThemeProvider theme={Themes.default}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
+        </OrdersProvider>
       </BooksProvider>
     </UserProvider>
   </LayoutProvider>

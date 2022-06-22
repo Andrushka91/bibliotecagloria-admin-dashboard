@@ -24,7 +24,7 @@ import Charts from "../../pages/charts";
 import Dashboard from "../../pages/dashboard";
 import Icons from "../../pages/icons";
 import Notifications from "../../pages/notifications";
-import Tables from "../../pages/tables";
+import Orders from "../../pages/Orders";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -49,7 +49,7 @@ function Layout(props) {
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/BookList" component={BookList} />
-              <Route path="/app/tables" component={Tables} />
+              <Route path="/app/Orders" component={Orders} />
               <Route path="/app/notifications" component={Notifications} />
               <Route
                 exact

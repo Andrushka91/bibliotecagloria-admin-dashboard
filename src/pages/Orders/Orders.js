@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import MUIDataTable from "mui-datatables";
+import { Context as OrdersContext } from '../../context/OrdersContext';
+
 
 // components
-import PageTitle from "../../components/PageTitle";
-import Widget from "../../components/Widget";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import Widget from "../../components/Widget/Widget";
 import Table from "../dashboard/components/Table/Table";
 
 // data
@@ -37,27 +39,37 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Tables() {
+export default function Orders() {
+
+  const { state, fetchOrders } = useContext(OrdersContext);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  // <Grid item xs={12}>
+  //   <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+  //     <Table data={mock.table} />
+  //   </Widget>
+  // </Grid>
+
+  console.log("STATE-tables.js:", ...state)
   const classes = useStyles();
   return (
     <>
-      <PageTitle title="Tables" />
+      <PageTitle title="Comenzi" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <MUIDataTable
-            title="Employee List"
-            data={datatableData}
-            columns={["Name", "Company", "City", "State"]}
+            title="Listă comenzi"
+            data={state}
+            columns={["Nr comandă", "Nume", "Email", "Total"]}
             options={{
               filterType: "checkbox",
             }}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-            <Table data={mock.table} />
-          </Widget>
-        </Grid>
+
       </Grid>
     </>
   );

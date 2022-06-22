@@ -1,7 +1,8 @@
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
-  ArrowBack as ArrowBackIcon, BorderAll as TableIcon, FilterNone as UIElementsIcon, List as BookListIcon, HelpOutline as FAQIcon, Home as HomeIcon, LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon, QuestionAnswer as SupportIcon
+  ArrowBack as ArrowBackIcon, BorderAll as TableIcon, FilterNone as UIElementsIcon, List as ListIcon, HelpOutline as FAQIcon, Home as HomeIcon, LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon, QuestionAnswer as SupportIcon
 } from "@material-ui/icons";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -23,11 +24,11 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 1,
-    label: "BookList",
+    label: "Bibliotecă",
     link: "/app/BookList",
-    icon: <BookListIcon />,
+    icon: <LibraryBooksIcon />,
   },
-  { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
+  { id: 2, label: "Listă Comenzi", link: "/app/Orders", icon: <ListIcon /> },
   {
     id: 3,
     label: "Notifications",
@@ -83,7 +84,7 @@ function Sidebar({ location }) {
   // local
   var [isPermanent, setPermanent] = useState(true);
 
-  useEffect(function() {
+  useEffect(function () {
     window.addEventListener("resize", handleWindowWidthChange);
     handleWindowWidthChange();
     return function cleanup() {

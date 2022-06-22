@@ -1,6 +1,6 @@
 {
-  "name": "Tables",
+  "name": "Orders",
   "version": "0.0.0",
-  "main": "Tables.js",
+  "main": "Orders.js",
   "private": true
 }
