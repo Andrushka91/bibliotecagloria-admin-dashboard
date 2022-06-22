@@ -29,7 +29,7 @@ function Badge({ children, colorBrightness, color, ...props }) {
   return (
     <Styled>
       {styledProps => (
-        <BadgeBase
+        <BadgeBase overlap="rectangular"
           classes={{
             badge: classnames(classes.badge, styledProps.classes.badge),
           }}

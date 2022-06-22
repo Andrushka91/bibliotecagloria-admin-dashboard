@@ -42,7 +42,7 @@ export default function Widget({
             header
           ) : (
             <React.Fragment>
-              <BookList variant="h5" color="textSecondary" noWrap>
+              <BookList variant="h5" color="textSecondary"  nowrap="true">
                 {title}
               </BookList>
               {!disableWidgetMenu && (
@@ -52,7 +52,7 @@ export default function Widget({
                   aria-owns="widget-menu"
                   aria-haspopup="true"
                   onClick={() => setMoreMenuOpen(true)}
-                  buttonRef={setMoreButtonRef}
+                  ref={setMoreButtonRef}
                 >
                   <MoreIcon />
                 </IconButton>

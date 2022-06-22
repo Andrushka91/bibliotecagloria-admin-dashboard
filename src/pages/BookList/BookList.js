@@ -6,17 +6,18 @@ import "./table-styles.css";
 import Table from "../../components/table-pagination/table";
 export default function BookListPage() {
 
-  const { state, fetchBooks } = useContext(BooksContext);
+  const { state, fetchBooks, searchBook } = useContext(BooksContext);
   const [page, setPage] = useState(1);
-  const itemsPerPage = 3;
-
+  const [searchQuery, setSearchQuery] = useState('');
+  const [queryUsed, setQueryUsed] = useState(false);
+  let itemsPerPage = 3;
   const tableHead = {
-    image:"",
+    image: "",
     title: "Titlu",
     author: "Autor",
-    description: "descriere",
-    category: "categorie",
-    price: "pret",
+    description: "Descriere",
+    category: "Categorie",
+    price: "Pret",
   };
 
   const mapData = () => {
@@ -29,6 +30,17 @@ export default function BookListPage() {
     fetchBooks(page, itemsPerPage)
   }, [page]);
 
+  useEffect(() => {
+
+    console.log("useEffect:querry:", searchQuery);
+    if (searchQuery !== '') {
+      searchBook(searchQuery);
+      itemsPerPage = state.totalItems;
+      console.log("State after search:", state)
+    } else {
+      fetchBooks(page, itemsPerPage);
+    }
+  }, [searchQuery, queryUsed]);
 
   return (
     <>
@@ -38,6 +50,7 @@ export default function BookListPage() {
           <Table
             tableHead={tableHead}
             requestPage={(page) => setPage(page)}
+            searchBook={(value) => { setSearchQuery(value); setQueryUsed(!queryUsed) }}
             countPerPage={itemsPerPage}
             totalItems={state.totalItems}
             items={state.items}

@@ -17,6 +17,7 @@ const searchBook = dispatch => async (title) => {
     console.log("searchedTitle:", title);
 
     const res = await booksApi.get('/search', { params: { title } })
+    console.log("Payload after search:",res.data)
     dispatch({ type: 'search_book', payload: res.data })
 
 }

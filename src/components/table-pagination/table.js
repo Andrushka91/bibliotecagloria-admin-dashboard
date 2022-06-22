@@ -1,35 +1,33 @@
-import throttle from "lodash/throttle";
-import Pagination from "rc-pagination";
-import "rc-pagination/assets/index.css";
 import React, { useEffect, useState } from "react";
+import "rc-pagination/assets/index.css";
+import Pagination from "rc-pagination";
 
+import './styles.css';
 
-
-const Table = ({ tableHead, requestPage, countPerPage, totalItems, items }) => {
+const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, items }) => {
     const [collection, setCollection] = useState(items);
-    const [value, setValue] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-
-    const searchData = React.useRef(
-        throttle(val => {
-            const query = val.toLowerCase();
-            const data = items.filter(item => item.title.toLowerCase().indexOf(query) > -1)
-            setCollection(data);
-            console.log("search:", data)
-        }, 400)
-    );
-
-    useEffect(() => {
-        if (!value) {
-            updatePage(1);
-        } else {
-            searchData.current(value);
-        }
-    }, [value]);
+    const [disablePagination, setDisablePagination] = useState(false);
+    let searchInput = React.createRef();
 
     useEffect(() => {
         setCollection(items);
     }, [items]);
+
+    const searchData = (value) => {
+        const query = value.toLowerCase();
+        console.log("currentCollectionResult:", collection)
+        console.log("querry:", query)
+        // const data = collection.filter(item => item.title.toLowerCase().indexOf(query) > -1)
+        if (query == '') {
+            setDisablePagination(false);
+        } else {
+            setDisablePagination(true);
+        }
+        searchBook(query);
+        setCollection(items);
+        console.log("searchResult:", collection)
+    }
 
     const updatePage = p => {
         setCurrentPage(p);
@@ -46,7 +44,6 @@ const Table = ({ tableHead, requestPage, countPerPage, totalItems, items }) => {
             }
             return <td key={i}>{key[keyD]}</td>;
         });
-        console.log("columndata:", columnData)
         return <tr key={index}>{columnData}</tr>;
     };
 
@@ -65,9 +62,9 @@ const Table = ({ tableHead, requestPage, countPerPage, totalItems, items }) => {
             <div className="search">
                 <input
                     placeholder="Căutare"
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
+                    ref={searchInput}
                 />
+                <button onClick={() => searchData(searchInput.current.value)}>Caută</button>
             </div>
             <table>
                 <thead>
@@ -75,12 +72,16 @@ const Table = ({ tableHead, requestPage, countPerPage, totalItems, items }) => {
                 </thead>
                 <tbody className="trhover">{tableData()}</tbody>
             </table>
-            <Pagination
-                pageSize={countPerPage}
-                onChange={updatePage}
-                current={currentPage}
-                total={totalItems}
-            />
+            {
+                !disablePagination ?
+                    (<Pagination
+                        pageSize={countPerPage}
+                        onChange={updatePage}
+                        current={currentPage}
+                        total={totalItems}
+                    />)
+                    : null
+            }
         </>
     );
 };

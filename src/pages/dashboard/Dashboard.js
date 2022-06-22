@@ -52,12 +52,12 @@ export default function Dashboard(props) {
   return (
     <>
       <PageTitle title="Dashboard" button={<Button
-      variant="contained"
-      size="medium"
-      color="secondary"
-    >
+        variant="contained"
+        size="medium"
+        color="secondary"
+      >
         Latest Reports
-    </Button>} />
+      </Button>} />
       <Grid container spacing={4}>
         <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget
@@ -69,30 +69,30 @@ export default function Dashboard(props) {
             <div className={classes.visitsNumberContainer}>
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
-              <BookList size="xl" weight="medium" noWrap>
-                12, 678
-              </BookList>
+                  <BookList size="xl" weight="medium"  nowrap="true">
+                    12, 678
+                  </BookList>
                 </Grid>
                 <Grid item xs={6}>
-              <LineChart
-                width={100}
-                height={30}
-                data={[
-                  { value: 10 },
-                  { value: 15 },
-                  { value: 10 },
-                  { value: 17 },
-                  { value: 18 },
-                ]}
-              >
-                <Line
-                  type="natural"
-                  dataKey="value"
-                  stroke={theme.palette.success.main}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
+                  <LineChart
+                    width={100}
+                    height={30}
+                    data={[
+                      { value: 10 },
+                      { value: 15 },
+                      { value: 10 },
+                      { value: 17 },
+                      { value: 18 },
+                    ]}
+                  >
+                    <Line
+                      type="natural"
+                      dataKey="value"
+                      stroke={theme.palette.success.main}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LineChart>
                 </Grid>
               </Grid>
             </div>
@@ -103,19 +103,19 @@ export default function Dashboard(props) {
               alignItems="center"
             >
               <Grid item xs={4}>
-                <BookList color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary"  nowrap="true">
                   Registrations
                 </BookList>
                 <BookList size="md">860</BookList>
               </Grid>
               <Grid item xs={4}>
-                <BookList color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary"  nowrap="true">
                   Sign Out
                 </BookList>
                 <BookList size="md">32</BookList>
               </Grid>
               <Grid item xs={4}>
-                <BookList color="text" colorBrightness="secondary" noWrap>
+                <BookList color="text" colorBrightness="secondary"  nowrap="true">
                   Rate
                 </BookList>
                 <BookList size="md">3.25%</BookList>
@@ -198,7 +198,7 @@ export default function Dashboard(props) {
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
-                noWrap
+                 nowrap="true"
               >
                 60% / 37°С / 3.3 Ghz
               </BookList>
@@ -222,7 +222,7 @@ export default function Dashboard(props) {
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
-                noWrap
+                 nowrap="true"
               >
                 54% / 31°С / 3.3 Ghz
               </BookList>
@@ -246,7 +246,7 @@ export default function Dashboard(props) {
                 color="text"
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
-                noWrap
+                nowrap="true"
               >
                 57% / 21°С / 3.3 Ghz
               </BookList>
