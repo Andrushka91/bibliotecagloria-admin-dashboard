@@ -17,24 +17,10 @@ const ordersReducer = (state, action) => {
 const fetchOrders = dispatch => async () => {
     try {
         const res = await booksApi.get('/orders')
-        const dataList = [];
-        res.data.forEach((index) => {
-            const item = Object.keys(index).
-                filter((key) => !key.includes('_id') && !key.includes('books') && !key.includes('_v')).
-                reduce((entry, key) => { return Object.assign(entry, { [key]: index[key] }) }, {});
-            dataList.push(item);
-        })
-        // console.log("DATAList-disp:", dataList);
-        const dispatchData = [];
-        dataList.forEach((item) => {
-            dispatchData.push(Object.values(item));
-        })
-        console.log("DATALIST-distach-DATA:", dispatchData)
-        dispatch({ type: 'fetch_orders', payload: dispatchData})
+        dispatch({ type: 'fetch_orders', payload: res.data })
     } catch (err) {
         console.log("FetchOrdersDispatch", err)
     }
-
 }
 
 const searchOrder = dispatch => async (title) => {
@@ -46,12 +32,9 @@ const searchOrder = dispatch => async (title) => {
 
 }
 
-const addBook = dispatch => async (name) => {
-    await booksApi.post('/book', { name })
-}
 
 export const { Provider, Context } = createDataContext(
     ordersReducer,
-    { addBook, fetchOrders },
+    { fetchOrders },
     []
 )

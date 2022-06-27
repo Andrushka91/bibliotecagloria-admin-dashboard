@@ -4,72 +4,134 @@ import { makeStyles } from "@material-ui/styles";
 import MUIDataTable from "mui-datatables";
 import { Context as OrdersContext } from '../../context/OrdersContext';
 
-
-// components
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Widget from "../../components/Widget/Widget";
-import Table from "../dashboard/components/Table/Table";
+import Table from "../dashboard/components/TableOrderBooks/Table";
 
-// data
-import mock from "../dashboard/mock";
 
-const datatableData = [
-  ["Joe James", "Example Inc.", "Yonkers", "NY"],
-  ["John Walsh", "Example Inc.", "Hartford", "CT"],
-  ["Bob Herm", "Example Inc.", "Tampa", "FL"],
-  ["James Houston", "Example Inc.", "Dallas", "TX"],
-  ["Prabhakar Linwood", "Example Inc.", "Hartford", "CT"],
-  ["Kaui Ignace", "Example Inc.", "Yonkers", "NY"],
-  ["Esperanza Susanne", "Example Inc.", "Hartford", "CT"],
-  ["Christian Birgitte", "Example Inc.", "Tampa", "FL"],
-  ["Meral Elias", "Example Inc.", "Hartford", "CT"],
-  ["Deep Pau", "Example Inc.", "Yonkers", "NY"],
-  ["Sebastiana Hani", "Example Inc.", "Dallas", "TX"],
-  ["Marciano Oihana", "Example Inc.", "Yonkers", "NY"],
-  ["Brigid Ankur", "Example Inc.", "Dallas", "TX"],
-  ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
-  ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
-  ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-  ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
-];
+
 
 const useStyles = makeStyles(theme => ({
   tableOverflow: {
     overflow: 'auto'
+  },
+  header: {
+    alignItems: 'center'
   }
 }))
 
 export default function Orders() {
 
   const { state, fetchOrders } = useContext(OrdersContext);
+  const [ordersData, setOrdersData] = useState([]);
+  const [orderBooks, setOrderBooks] = useState([]);
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  // <Grid item xs={12}>
-  //   <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-  //     <Table data={mock.table} />
-  //   </Widget>
-  // </Grid>
+  useEffect(() => {
+    const dataList = [];
+    state.forEach((index) => {
+      const item = Object.keys(index).
+        filter((key) => !key.includes('_id') && !key.includes('books') && !key.includes('_v')).
+        reduce((entry, key) => { return Object.assign(entry, { [key]: index[key] }) }, {});
+      dataList.push(item);
+    })
+    const dispatchData = [];
+    dataList.forEach((item) => {
+      dispatchData.push(Object.values(item));
+    })
+    setOrdersData(dispatchData);
+  }, [state]);
 
-  console.log("STATE-tables.js:", ...state)
+  const getOrderBooks = orderId => {
+    const order = state.find((t) => t.orderId === orderId)
+    console.log("order:", order)
+    // console.log("order.books:",...order.books)
+    const tableData = [];
+    order['books'].forEach((index) => {
+      const item = Object.keys(index).
+        filter((key) => !key.includes('price') && !key.includes('_v')).
+        reduce((entry, key) => { return Object.assign(entry, { [key]: index[key] }) }, {});
+      tableData.push(item);
+    })
+    setOrderBooks(tableData);
+    console.log("orderBooks:", orderBooks);
+  }
+
+  // const options = {
+  //   filter: true,
+  //   selectableRows: true,
+  //   filterType: "dropdown",
+  //   responsive: "stacked",
+  //   rowsPerPage: 10,
+  //   onRowsSelect: (rowsSelected, allRows) => {
+  //     console.log(rowsSelected, allRows);
+  //   },
+  //   onRowsDelete: rowsDeleted => {
+  //     console.log(rowsDeleted, "were deleted!");
+  //   },
+  //   onChangePage: numberRows => {
+  //     console.log(numberRows);
+  //   },
+  //   onSearchChange: searchText => {
+  //     console.log(searchText);
+  //   },
+  //   onColumnSortChange: (column, direction) => {
+  //     console.log(column, direction);
+  //   },
+  //   onColumnViewChange: (column, action) => {
+  //     console.log(column, action);
+  //   },
+  //   onFilterChange: (column, filters) => {
+  //     console.log(column, filters);
+  //   },
+  //   onCellClick: (cellIndex, rowIndex) => {
+  //     console.log("hey-ive been clicked:", cellIndex, rowIndex);
+  //   }
+  // };
   const classes = useStyles();
   return (
     <>
       <PageTitle title="Comenzi" />
       <Grid container spacing={4}>
-        <Grid item xs={12}>
+        <Grid item xs={12} >
           <MUIDataTable
             title="Listă comenzi"
-            data={state}
-            columns={["Nr comandă", "Nume", "Email", "Total"]}
+            data={ordersData}
+            columns={["Nr comandă", "Nume", "Email", "Total", {
+              label: "Acțiuni",
+              options: {
+                customBodyRender: (value, tableMeta, updateValue) => {
+                  return (
+                    <button onClick={() => {
+                      console.log(tableMeta.rowData[0])
+                      getOrderBooks(tableMeta.rowData[0]);
+                    }}>
+                      Detalii
+                    </button>
+                  )
+                }
+              }
+            }]}
             options={{
               filterType: "checkbox",
             }}
           />
         </Grid>
 
+        {
+          orderBooks.length ?
+            (
+              <Grid item xs={12}>
+                <Widget title="Lista de cărți din comandă" disableWidgetMenu bodyClass={classes.tableOverflow}>
+                  <Table data={orderBooks} />
+                </Widget>
+              </Grid>
+            )
+            : null
+        }
       </Grid>
     </>
   );

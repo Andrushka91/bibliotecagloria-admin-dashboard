@@ -36,8 +36,8 @@ const fetchBooks = dispatch => async (page, itemsPerPage) => {
 
 }
 
-const addBook = dispatch => async (name) => {
-    await booksApi.post('/book', { name })
+const addBook = dispatch => async (book) => {
+    await booksApi.post('/book', {...book })
 }
 
 export const { Provider, Context } = createDataContext(

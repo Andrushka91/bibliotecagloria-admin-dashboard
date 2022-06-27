@@ -19,13 +19,14 @@ import Header from "../Header";
 import Sidebar from "../Sidebar";
 
 // pages
-import BookList from "../../pages/BookList/BookList";
+
 import Charts from "../../pages/charts";
 import Dashboard from "../../pages/dashboard";
 import Icons from "../../pages/icons";
 import Notifications from "../../pages/notifications";
-import Orders from "../../pages/Orders";
-
+import BookList from "../../pages/bookList/BookList";
+import Orders from "../../pages/orders/Orders";
+import AddBook from "../../pages/addBook/addBook";
 // context
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -49,7 +50,8 @@ function Layout(props) {
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/BookList" component={BookList} />
-              <Route path="/app/Orders" component={Orders} />
+              <Route path="/app/AddBook" component={AddBook} />
+              <Route path="/app/Orders" component={Orders} />         
               <Route path="/app/notifications" component={Notifications} />
               <Route
                 exact

@@ -38,8 +38,8 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, i
         const { key, index } = rowData;
         const tableCell = Object.keys(tableHead);
         const columnData = tableCell.map((keyD, i) => {
-            if (key[keyD].data) {
-                const source = "data:image/png;base64," + key[keyD].data + "";
+            if (keyD == 'image') {
+                const source = key[keyD];
                 return <td key={i}><img style={{ width: 100 }} src={source} /></td>;
             }
             return <td key={i}>{key[keyD]}</td>;

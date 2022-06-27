@@ -31,7 +31,6 @@ export default function BookListPage() {
   }, [page]);
 
   useEffect(() => {
-
     console.log("useEffect:querry:", searchQuery);
     if (searchQuery !== '') {
       searchBook(searchQuery);
