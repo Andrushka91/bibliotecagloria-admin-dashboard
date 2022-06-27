@@ -4,12 +4,17 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { Context as BooksContext } from '../../context/BooksContext';
 import "./table-styles.css";
 import Table from "../../components/table-pagination/table";
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+
+
 export default function BookListPage() {
 
   const { state, fetchBooks, searchBook } = useContext(BooksContext);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [queryUsed, setQueryUsed] = useState(false);
+  const [open, setOpen] = useState(false);
   let itemsPerPage = 3;
   const tableHead = {
     image: "",
@@ -27,7 +32,7 @@ export default function BookListPage() {
   }
 
   useEffect(() => {
-    fetchBooks(page, itemsPerPage)
+    fetchBooks(handleToggle, page, itemsPerPage, handleClose)
   }, [page]);
 
   useEffect(() => {
@@ -37,13 +42,29 @@ export default function BookListPage() {
       itemsPerPage = state.totalItems;
       console.log("State after search:", state)
     } else {
-      fetchBooks(page, itemsPerPage);
+      fetchBooks(handleToggle, page, itemsPerPage, handleClose);
     }
   }, [searchQuery, queryUsed]);
+
+
+  const handleClose = () => {
+    console.log("handleToggle");
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    console.log("handleToggle")
+    setOpen(!open);
+  };
 
   return (
     <>
       <PageTitle title="Bibliotecă" />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container spacing={4}>
         {state.items ?
           <Table

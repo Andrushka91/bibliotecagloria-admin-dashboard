@@ -17,13 +17,18 @@ import Box from '@material-ui/core/Box'
 
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+
 
 export default function AddBook() {
   const classes = useStyles();
 
-  const { addBook } = useContext(BooksContext);
+  const { state, addBook } = useContext(BooksContext);
+  const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [validate, setValidate] = useState(false);
-  const [state, setState] = useState({
+  const [form, setForm] = useState({
     image: "",
     title: "",
     author: "",
@@ -44,23 +49,53 @@ export default function AddBook() {
   }
 
   const uploadBook = () => {
-    const isEmpty = Object.values(state).some(x => x === null || x === '');
+    const isEmpty = Object.values(form).some(x => x === null || x === '');
     console.log("isEmpty:", isEmpty)
     if (isEmpty) {
       setValidate(true);
-      console.log("Some of them empty:fill the fields pls", state)
     } else {
       setValidate(false);
-      console.log("notEmpty-gj", state);
-       
-        addBook(state);
-     
-
+      addBook((value) => handleToggle(value), form, (value) => handleClose(value));
+      if (state !== '') {
+        setSuccess(true);
+      }
+      setTimeout(() => {
+        setSuccess(false);
+        clearForm();
+        setForm({
+          image: "",
+          title: "",
+          author: "",
+          description: "",
+          category: "",
+          price: '',
+          quantity: '',
+        });
+      }, "3000")
     }
   }
 
-  const errorMessage = Object.keys(state).map((fieldName, key) => {
-    if (state[fieldName] == '' || state[fieldName] == 0) {
+  const clearForm = () => {
+    document.querySelector('#imageInput').value = '';
+    document.querySelector('#title').value = '';
+    document.querySelector('#author').value = '';
+    document.querySelector('#price').value = '';
+    document.querySelector('#quantity').value = '';
+    document.querySelector('#category').value = '';
+    document.querySelector('#description').value = '';
+  }
+
+  const handleClose = () => {
+    console.log("handleToggle");
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    console.log("handleToggle")
+    setOpen(!open);
+  };
+
+  const errorMessage = Object.keys(form).map((fieldName, key) => {
+    if (form[fieldName] == '' || form[fieldName] == 0) {
       return (
         <Box key={key} padding={1}>
           <Stack sx={{ width: '100%' }} spacing={2}>
@@ -70,6 +105,16 @@ export default function AddBook() {
       )
     }
   })
+
+  const successMessage = () => {
+    return (
+      <Box padding={1}>
+        <Stack sx={{ width: '100%' }} spacing={2}>
+          <Alert severity="success">{state}</Alert>
+        </Stack>
+      </Box>
+    )
+  }
 
   function getBase64(file, cb) {
     let reader = new FileReader();
@@ -90,28 +135,28 @@ export default function AddBook() {
       const image = evt.target.files[0];
       console.log("img:", image)
       getBase64(image, (result) => {
-        setState({
-          ...state,
+        setForm({
+          ...form,
           [evt.target.name]: result
         });
       });
 
     } else {
-      setState({
-        ...state,
+      setForm({
+        ...form,
         [evt.target.name]: value
       });
     }
   }
 
   function deleteImage() {
-    setState({
-      ...state,
+    setForm({
+      ...form,
       image: ""
     });
     const input = document.querySelector('#imageInput');
     input.value = '';
-    console.log("deleteImage:->state", state)
+    console.log("deleteImage:->form", form)
   }
 
   const categories = [{ id: 0, name: 'FAMILIE' }, { id: 1, name: 'SPIRITUALITATE' }, { id: 2, name: 'SANATATE' }];
@@ -126,6 +171,12 @@ export default function AddBook() {
   return (
     <>
       <PageTitle title="Adăugare carte" />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container spacing={2}>
         <Widget disableWidgetMenu bodyClass={classes.tableOverflow}>
           <Grid style={{ padding: 25 }} item xs={12} className={classes.horizontalContainer}>
@@ -134,24 +185,25 @@ export default function AddBook() {
                 <TextField
                   label="Titlu"
                   variant="outlined"
-                  value={state.title}
+                  id="title"
+                  value={form.title}
                   name="title"
                   onChange={handleChange} />
               </Box>
 
               <Box padding={1}>
                 <TextField
-                  id="outlined-basic"
                   label="Autor"
-                  name="author"
                   variant="outlined"
-                  value={state.author}
+                  id="author"
+                  name="author"
+                  value={form.author}
                   onChange={handleChange} />
               </Box>
               <Box padding={1}>
-                {state.image && (
+                {form.image && (
                   <div>
-                    <img alt="not fount" width={"100px"} src={state.image} />
+                    <img alt="not fount" width={"100px"} src={form.image} />
                     <br />
                     <Button
                       variant="contained"
@@ -188,20 +240,20 @@ export default function AddBook() {
             <Grid item className={classes.verticalContainer}>
               <Box padding={1}>
                 <TextField
-                  id="outlined-basic"
                   label="Cantitate"
                   variant="outlined"
+                  id="quantity"
                   name="quantity"
-                  value={state.quantity}
+                  value={form.quantity}
                   onChange={handleChange} />
               </Box>
               <Box padding={1}>
                 <TextField
-                  id="outlined-basic"
+                  id="price"
                   label="Preț"
                   variant="outlined"
                   name="price"
-                  value={state.price}
+                  value={form.price}
                   onChange={handleChange} />
               </Box>
             </Grid>
@@ -213,22 +265,22 @@ export default function AddBook() {
                   select
                   name="category"
                   label="categorie"
-                  value={state.category}
+                  id="category"
+                  value={form.category}
                   onChange={handleChange}
                 >
                   {selectItems}
                 </TextField>
               </Box>
-
               <Box padding={1} >
                 <TextField
-                  id="outlined-multiline-static"
+                  id="description"
                   label="Descriere"
                   name="description"
                   multiline
                   rows={4}
                   style={{ width: 400 }}
-                  value={state.descriere}
+                  value={form.descriere}
                   onChange={handleChange}
                 />
               </Box>
@@ -239,8 +291,15 @@ export default function AddBook() {
               {errorMessage}
             </Box>
           ) : null}
+          {success ? (
+            <Box padding={1}>
+              {successMessage}
+            </Box>
+          ) : null}
+
         </Widget>
       </Grid>
+
     </>
   );
 }

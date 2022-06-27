@@ -14,9 +14,11 @@ const ordersReducer = (state, action) => {
     }
 }
 
-const fetchOrders = dispatch => async () => {
+const fetchOrders = dispatch => async (handleToggle,handleClose) => {
     try {
+        handleToggle();
         const res = await booksApi.get('/orders')
+        handleClose();
         dispatch({ type: 'fetch_orders', payload: res.data })
     } catch (err) {
         console.log("FetchOrdersDispatch", err)

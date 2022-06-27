@@ -7,7 +7,8 @@ import { Context as OrdersContext } from '../../context/OrdersContext';
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Widget from "../../components/Widget/Widget";
 import Table from "../dashboard/components/TableOrderBooks/Table";
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
 
 
 
@@ -25,9 +26,9 @@ export default function Orders() {
   const { state, fetchOrders } = useContext(OrdersContext);
   const [ordersData, setOrdersData] = useState([]);
   const [orderBooks, setOrderBooks] = useState([]);
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
-    fetchOrders();
+    fetchOrders(handleToggle, handleClose);
   }, []);
 
   useEffect(() => {
@@ -59,6 +60,13 @@ export default function Orders() {
     setOrderBooks(tableData);
     console.log("orderBooks:", orderBooks);
   }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   // const options = {
   //   filter: true,
@@ -95,6 +103,12 @@ export default function Orders() {
   return (
     <>
       <PageTitle title="Comenzi" />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container spacing={4}>
         <Grid item xs={12} >
           <MUIDataTable
