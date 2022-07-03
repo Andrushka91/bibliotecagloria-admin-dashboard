@@ -36,15 +36,16 @@
   }
   
   table {
+    display:'flow';
     width: 100%;
     padding: 1em;
     margin: 20px 0;
-    border-collapse: collapse;
+    border-collapse: collapse;        
     box-shadow: 0 1px 2px 0 #c6e8c9;
   }
   
   thead {
-    background-color: #caf0ec;
+    background-color: #000000;
     font-size: 16px;
   }
   
@@ -55,8 +56,9 @@
     color: #14877c;
   }
   td {
-    text-align: left;
+    text-align: center;
     padding: 8px;
+    font-family: sans-serif;
   }
   
   tr {
@@ -67,3 +69,6 @@
     background-color: #e0e0e0;
   }
   
+  #tableRow tr:hover { 
+    background-color: #ccc;
+ }

@@ -1,12 +1,4 @@
-.App {
-    font-family: sans-serif;
-    position: relative;
-    width: 80vw;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 30px;
-    color: #14877c;
-  }
+ 
   .heading {
     color: #14877c;
     border-bottom: 1px solid #14877c;
@@ -45,6 +37,7 @@
   }
   
   table {
+    display:'flow';
     width: 100%;
     padding: 1em;
     margin: 20px 0;

@@ -7144,6 +7144,14 @@
     "react-transition-group" "^2.5.3"
     "tslib" "^1.9.3"
 
+"material-ui-search-bar@^1.0.0":
+  "integrity" "sha512-lCNuzMLPBVukVAkcnYKLXHneozsuKZREZNOcc8z9S9scXHqxJzhC9hOS3OC3/YJ+NJEB5lZB9zg1gryBaXEu8w=="
+  "resolved" "https://registry.npmmirror.com/material-ui-search-bar/-/material-ui-search-bar-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "classnames" "^2.2.5"
+    "prop-types" "^15.5.8"
+
 "material-ui-upload@^1.2.1":
   "integrity" "sha512-KrJMJw9Borjm2DjxTo5+agWLhnZJ1T2rvzQRw72ItkEaMg9icgizPY4CZFfqQbgu5Duwl8daW8Ddn2WW54zroA=="
   "resolved" "https://registry.npmmirror.com/material-ui-upload/-/material-ui-upload-1.2.1.tgz"

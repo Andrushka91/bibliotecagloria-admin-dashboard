@@ -55,42 +55,29 @@ export default function AddBook() {
       setValidate(true);
     } else {
       setValidate(false);
-      addBook((value) => handleToggle(value), form, (value) => handleClose(value));
-      if (state !== '') {
-        setSuccess(true);
-      }
+      addBook((value) => handleToggle(value), (value) => setSuccess(value), form, (value) => handleClose(value));
+
       setTimeout(() => {
         setSuccess(false);
-        clearForm();
+        // clearForm();
         setForm({
-          image: "",
-          title: "",
-          author: "",
-          description: "",
-          category: "",
+          image: '',
+          title: '',
+          author: '',
+          description: '',
+          category: '',
           price: '',
           quantity: '',
         });
-      }, "3000")
+        document.querySelector('#imageInput').value = '';
+      }, "5000")
     }
   }
 
-  const clearForm = () => {
-    document.querySelector('#imageInput').value = '';
-    document.querySelector('#title').value = '';
-    document.querySelector('#author').value = '';
-    document.querySelector('#price').value = '';
-    document.querySelector('#quantity').value = '';
-    document.querySelector('#category').value = '';
-    document.querySelector('#description').value = '';
-  }
-
   const handleClose = () => {
-    console.log("handleToggle");
     setOpen(false);
   };
   const handleToggle = () => {
-    console.log("handleToggle")
     setOpen(!open);
   };
 
@@ -129,11 +116,8 @@ export default function AddBook() {
 
   function handleChange(evt) {
     const value = evt.target.value;
-    console.log("name:", evt.target.name)
-    console.log("value:", evt.target.value)
     if (evt.target.name == 'image') {
       const image = evt.target.files[0];
-      console.log("img:", image)
       getBase64(image, (result) => {
         setForm({
           ...form,
@@ -156,10 +140,9 @@ export default function AddBook() {
     });
     const input = document.querySelector('#imageInput');
     input.value = '';
-    console.log("deleteImage:->form", form)
   }
 
-  const categories = [{ id: 0, name: 'FAMILIE' }, { id: 1, name: 'SPIRITUALITATE' }, { id: 2, name: 'SANATATE' }];
+  const categories = [{ id: 0, name: 'Familie' }, { id: 1, name: 'Spiritualitate' }, { id: 2, name: 'Sănătate' }];
   const selectItems = categories.map(category => (
     <MenuItem key={category.id}
       value={category.name}
@@ -280,7 +263,7 @@ export default function AddBook() {
                   multiline
                   rows={4}
                   style={{ width: 400 }}
-                  value={form.descriere}
+                  value={form.description}
                   onChange={handleChange}
                 />
               </Box>

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
-
+import SearchBar from "material-ui-search-bar";
 import './styles.css';
+import ClearIcon from '@mui/icons-material/Clear';
+import SearchIcon from '@mui/icons-material/Search';
 
-const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, items }) => {
+const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalItems, items, deleteBook }) => {
     const [collection, setCollection] = useState(items);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(page);
     const [disablePagination, setDisablePagination] = useState(false);
-    let searchInput = React.createRef();
+
 
     useEffect(() => {
         setCollection(items);
@@ -16,8 +18,6 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, i
 
     const searchData = (value) => {
         const query = value.toLowerCase();
-        console.log("currentCollectionResult:", collection)
-        console.log("querry:", query)
         // const data = collection.filter(item => item.title.toLowerCase().indexOf(query) > -1)
         if (query == '') {
             setDisablePagination(false);
@@ -26,7 +26,6 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, i
         }
         searchBook(query);
         setCollection(items);
-        console.log("searchResult:", collection)
     }
 
     const updatePage = p => {
@@ -38,9 +37,12 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, i
         const { key, index } = rowData;
         const tableCell = Object.keys(tableHead);
         const columnData = tableCell.map((keyD, i) => {
-            if (keyD=='image') {
-                const source =  key[keyD];
-                return <td key={i}><img style={{ width: 100 }} src={source} /></td>;
+            if (keyD == 'image') {
+                const source = key[keyD];
+                return <td key={i} style={{ textAlign: 'left', width: 100 }}><img style={{ width: 100 }} src={source} /></td>;
+            }
+            if (keyD == '_id') {
+                return <td key={i}><ClearIcon style={{ cursor: 'pointer' }} onClick={() => { deleteBook(key[keyD]) }} /></td>;
             }
             return <td key={i}>{key[keyD]}</td>;
         });
@@ -53,24 +55,20 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, totalItems, i
 
     const headRow = () => {
         return Object.values(tableHead).map((title, index) => (
-            <td key={index}>{title}</td>
+            <td key={index} style={{ fontFamily: 'bold' }}>{title}</td>
         ));
     };
 
     return (
         <>
-            <div className="search">
-                <input
-                    placeholder="Căutare"
-                    ref={searchInput}
-                />
-                <button onClick={() => searchData(searchInput.current.value)}>Caută</button>
-            </div>
+            <SearchBar
+                onRequestSearch={(value) => searchData(value)}
+            />
             <table>
-                <thead>
+                <thead style={{ color: "white", fontWeight: 'bold', fontSize: 22 }}>
                     <tr>{headRow()}</tr>
                 </thead>
-                <tbody className="trhover">{tableData()}</tbody>
+                <tbody id="tableRow" style={{ fontSize: 17 }} className="trhover">{tableData()}</tbody>
             </table>
             {
                 !disablePagination ?

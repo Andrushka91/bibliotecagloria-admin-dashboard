@@ -25,7 +25,7 @@ export default function TableComponent({ data }) {
       <TableHead>
         <TableRow>
           {keys.map(key => (
-            <TableCell style={{textAlign: 'center'}} key={key}>{key}</TableCell>
+            <TableCell style={{textAlign: 'center',color:'white'}} key={key}>{key}</TableCell>
           ))}
         </TableRow>
       </TableHead>

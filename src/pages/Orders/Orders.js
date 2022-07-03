@@ -68,37 +68,45 @@ export default function Orders() {
     setOpen(!open);
   };
 
-  // const options = {
-  //   filter: true,
-  //   selectableRows: true,
-  //   filterType: "dropdown",
-  //   responsive: "stacked",
-  //   rowsPerPage: 10,
-  //   onRowsSelect: (rowsSelected, allRows) => {
-  //     console.log(rowsSelected, allRows);
-  //   },
-  //   onRowsDelete: rowsDeleted => {
-  //     console.log(rowsDeleted, "were deleted!");
-  //   },
-  //   onChangePage: numberRows => {
-  //     console.log(numberRows);
-  //   },
-  //   onSearchChange: searchText => {
-  //     console.log(searchText);
-  //   },
-  //   onColumnSortChange: (column, direction) => {
-  //     console.log(column, direction);
-  //   },
-  //   onColumnViewChange: (column, action) => {
-  //     console.log(column, action);
-  //   },
-  //   onFilterChange: (column, filters) => {
-  //     console.log(column, filters);
-  //   },
-  //   onCellClick: (cellIndex, rowIndex) => {
-  //     console.log("hey-ive been clicked:", cellIndex, rowIndex);
-  //   }
-  // };
+  const options = {
+    filter: true,
+    selectableRows: 'none',
+    filterType: "dropdown",
+    responsive: "simple",
+    rowsPerPage: 10,
+    selectableRowsOnClick:false,
+    onRowSelectionChange: (rowsSelected, allRows) => {
+      console.log(rowsSelected);
+      // getOrderBooks(rowsSelected[0]);
+      
+    },
+
+    // onRowsDelete: rowsDeleted => {
+    //   console.log(rowsDeleted, "were deleted!");
+    // },
+    // onChangePage: numberRows => {
+    //   console.log(numberRows);
+    // },
+    // onSearchChange: searchText => {
+    //   console.log(searchText);
+    // },
+    // onColumnSortChange: (column, direction) => {
+    //   console.log(column, direction);
+    // },
+    // onColumnViewChange: (column, action) => {
+    //   console.log(column, action);
+    // },
+    // onFilterChange: (column, filters) => {
+    //   console.log(column, filters);
+    // },
+    // onCellClick: (cellIndex, rowIndex) => {
+    //   console.log("hey-ive been clicked:", cellIndex, rowIndex);
+    // },
+    onRowClick: (rowData, rowState) => {
+      console.log(rowData[0], rowState);
+        getOrderBooks(rowData[0]);
+    },
+  };
   const classes = useStyles();
   return (
     <>
@@ -114,24 +122,10 @@ export default function Orders() {
           <MUIDataTable
             title="Listă comenzi"
             data={ordersData}
-            columns={["Nr comandă", "Nume", "Email", "Total", {
-              label: "Acțiuni",
-              options: {
-                customBodyRender: (value, tableMeta, updateValue) => {
-                  return (
-                    <button onClick={() => {
-                      console.log(tableMeta.rowData[0])
-                      getOrderBooks(tableMeta.rowData[0]);
-                    }}>
-                      Detalii
-                    </button>
-                  )
-                }
-              }
-            }]}
-            options={{
-              filterType: "checkbox",
-            }}
+            columns={["Nr comandă", "Nume", "Email", "Total"]}
+            options={
+              options
+            }
           />
         </Grid>
 
