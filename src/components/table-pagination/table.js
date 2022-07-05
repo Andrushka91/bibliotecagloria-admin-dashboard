@@ -44,6 +44,9 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalIt
             if (keyD == '_id') {
                 return <td key={i}><ClearIcon style={{ cursor: 'pointer' }} onClick={() => { deleteBook(key[keyD]) }} /></td>;
             }
+            if (keyD == 'price') {
+                return <td key={i}>{key[keyD] + '€'} </td>;
+            }
             return <td key={i}>{key[keyD]}</td>;
         });
         return <tr key={index}>{columnData}</tr>;
@@ -55,7 +58,7 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalIt
 
     const headRow = () => {
         return Object.values(tableHead).map((title, index) => (
-            <td key={index} style={{ fontFamily: 'bold' }}>{title}</td>
+            <td key={index} style={{ fontSize: 16 }}>{title}</td>
         ));
     };
 
@@ -68,7 +71,7 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalIt
                 <thead style={{ color: "white", fontWeight: 'bold', fontSize: 22 }}>
                     <tr>{headRow()}</tr>
                 </thead>
-                <tbody id="tableRow" style={{ fontSize: 17 }} className="trhover">{tableData()}</tbody>
+                <tbody id="tableRow" className="trhover">{tableData()}</tbody>
             </table>
             {
                 !disablePagination ?

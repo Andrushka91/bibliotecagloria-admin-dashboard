@@ -55,7 +55,7 @@ export default function CustomizedTables({ data }) {
                     {rows.map((row) => (
                         <StyledTableRow key={row._id}>
                             <StyledTableCell component="th" scope="row" style={{ width: '10%' }} >
-                                <img style={{ width: 150 }} src={`data:image/png;base64,${row.image}`} />
+                                <img style={{ width: 150 }} src={row.image} />
                             </StyledTableCell>
                             <StyledTableCell align="center">{row.title}</StyledTableCell>
                             <StyledTableCell align="center">{row.author}</StyledTableCell>

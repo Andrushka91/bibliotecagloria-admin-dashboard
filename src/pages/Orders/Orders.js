@@ -9,8 +9,6 @@ import DataTable from "../dashboard/components/TableOrderBooks/CustomizedTables"
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 
-
-
 const useStyles = makeStyles(theme => ({
   tableOverflow: {
     overflow: 'auto'
@@ -58,6 +56,7 @@ export default function Orders() {
       const item = Object.keys(index).
         filter((key) => !key.includes('price') && !key.includes('_v')).
         reduce((entry, key) => { return Object.assign(entry, { [key]: index[key] }) }, {});
+        console.log("item:",item)
       tableData.push(item);
     })
     setOrderBooks(tableData);
@@ -71,6 +70,11 @@ export default function Orders() {
     setOpen(!open);
   };
 
+
+  const deleteOrder = () => {
+    console.log("Order has been deleted")
+  }
+
   const options = {
     filter: true,
     selectableRows: 'none',
@@ -78,11 +82,6 @@ export default function Orders() {
     responsive: "standard",
     rowsPerPage: 10,
     selectableRowsOnClick: false,
-    onRowSelectionChange: (rowsSelected, allRows) => {
-      console.log(rowsSelected);
-      // getOrderBooks(rowsSelected[0]);
-
-    },
 
     // onRowsDelete: rowsDeleted => {
     //   console.log(rowsDeleted, "were deleted!");
@@ -128,7 +127,6 @@ export default function Orders() {
       name: "NUME",
       options: {
         filter: true,
-        sortDirection: 'asc',
         customHeadRender: (columnMeta, updateDirection) => (
           <th key={2} style={{ color: 'white', padding: 16, fontFamily: 'sans-serif', fontWeight: 'normal' }}>
             {columnMeta.name}
@@ -151,15 +149,24 @@ export default function Orders() {
       name: "TOTAL",
       options: {
         filter: true,
-        sort: false,
         customHeadRender: (columnMeta, updateDirection) => (
           <th key={4} style={{ color: 'white', padding: 16, fontFamily: 'sans-serif', fontWeight: 'normal' }}>
             {columnMeta.name}
           </th>
         )
       }
+    },
+    {
+      name: "STATUS",
+      options: {
+        filter: true,
+        customHeadRender: (columnMeta, updateDirection) => (
+          <th key={5} style={{ color: 'white', padding: 16, fontFamily: 'sans-serif', fontWeight: 'normal' }}>
+            {columnMeta.name}
+          </th>
+        )
+      }
     }
-
   ];
 
   return (
@@ -186,7 +193,7 @@ export default function Orders() {
           orderBooks.length ?
             (
               <Grid item xs={12}>
-                <Widget title={orderId} bodyClass={classes.tableOverflow}>
+                <Widget disableWidgetMenu deleteOrder={deleteOrder} title={orderId} bodyClass={classes.tableOverflow}>
                   <DataTable data={orderBooks} />
                 </Widget>
               </Grid>

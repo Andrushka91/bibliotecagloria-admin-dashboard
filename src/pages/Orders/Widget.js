@@ -1,7 +1,7 @@
 import {
-  List as BookList, IconButton,
+  List as OptionList, IconButton,
   Menu,
-  MenuItem, Paper
+  MenuItem, Paper, Button
 } from "@material-ui/core";
 import { MoreVert as MoreIcon } from "@material-ui/icons";
 import classnames from "classnames";
@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import useStyles from "./styles";
 
 export default function Widget({
+  deleteOrder,
   children,
   title,
   noBodyPadding,
@@ -30,10 +31,12 @@ export default function Widget({
   var [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
   return (
-    <div className={classes.widgetWrapper} style={style && {...style}}>
-      <Paper className={classes.paper} classes={{ root: classnames(classes.widgetRoot, {
-        [classes.noWidgetShadow]: noWidgetShadow
-        }) }}>
+    <div className={classes.widgetWrapper} style={style && { ...style }}>
+      <Paper className={classes.paper} classes={{
+        root: classnames(classes.widgetRoot, {
+          [classes.noWidgetShadow]: noWidgetShadow
+        })
+      }}>
         <div className={classnames(classes.widgetHeader, {
           [classes.noPadding]: noHeaderPadding,
           [headerClass]: headerClass
@@ -42,9 +45,9 @@ export default function Widget({
             header
           ) : (
             <React.Fragment>
-              <BookList variant="h5" color="textSecondary"  nowrap="true">
+              <OptionList variant="h5" color="textSecondary" nowrap="true">
                 {title}
-              </BookList>
+              </OptionList>
               {!disableWidgetMenu && (
                 <IconButton
                   color="primary"
@@ -68,7 +71,45 @@ export default function Widget({
         >
           {children}
         </div>
-      </Paper>
+
+        <div style={{ display: 'flex', position: 'relative', width: '100%', margin: '0 auto', justifyContent: 'space-between' }}>
+          <div style={{ width: 200, padding: 24 }}>
+            <Button
+            onClick={() => deleteOrder()}
+              style={{
+                textTransform: 'none',
+                borderRadius: 35,
+                color: 'white',
+                backgroundColor: "red",
+                padding: "14px 36px",
+                fontSize: "16px",
+                fontFamily: '"Roboto","Helvetica","Arial",sans-serif'
+              }}
+              variant="contained"
+            >
+              Anulează
+            </Button>
+          </div>
+
+          <div style={{ width: 200, padding: 24, marginRight: 24 }}>
+            <Button
+              style={{
+                textTransform: 'none',
+                borderRadius: 35,
+                color: 'white',
+                backgroundColor: "black",
+                padding: "14px 36px",
+                fontSize: "16px",
+                fontFamily: '"Roboto","Helvetica","Arial",sans-serif'
+              }}
+              variant="contained"
+            >
+              Procesează
+            </Button>
+          </div>
+        </div>
+      </Paper >
+
       <Menu
         id="widget-menu"
         open={isMoreMenuOpen}
@@ -77,12 +118,12 @@ export default function Widget({
         disableAutoFocusItem
       >
         <MenuItem>
-          <BookList>Anulează</BookList>
+
         </MenuItem>
         <MenuItem>
-          <BookList>Procesează</BookList>
+
         </MenuItem>
       </Menu>
-    </div>
+    </div >
   );
 }

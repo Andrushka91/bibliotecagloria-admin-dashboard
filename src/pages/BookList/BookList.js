@@ -22,12 +22,13 @@ export default function BookListPage() {
 
   const tableHead = {
     image: "",
-    title: "Titlu",
-    author: "Autor",
-    description: "Descriere",
-    category: "Categorie",
-    price: "Pret",
-    '_id': 'Elimină'
+    title: "TITLU",
+    author: "AUTOR",
+    description: "DESCRIERE",
+    category: "CATEGORIE",
+    quantity:'CANTITATE',
+    price: "PREȚ",
+    '_id': ''
   };
 
   const successMessage = () => {
