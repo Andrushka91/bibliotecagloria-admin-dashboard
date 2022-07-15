@@ -32,7 +32,9 @@ const fetchBooks = dispatch => async (handleToggle, page, itemsPerPage, handleCl
         }
         handleToggle();
         const res = await booksApi.get('/books', { params })
+        console.log("res:",res.data)
         handleClose();
+      
         dispatch({ type: 'fetch_books', payload: res.data })
     } catch (err) {
         console.log("UseBookDispatchError:", err)

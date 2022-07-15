@@ -42,8 +42,8 @@ export default function BookListPage() {
   }
 
   useEffect(() => {
-    if (state.items != undefined) {
-      if (state.items.length == 0) {
+    if (state.items !== undefined) {
+      if (state.items.length === 0) {
         fetchBooks(handleToggle, page - 1, itemsPerPage, handleClose)
       }
     }

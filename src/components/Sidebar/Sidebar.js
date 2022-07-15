@@ -1,6 +1,6 @@
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
-  ArrowBack as ArrowBackIcon, BorderAll as TableIcon, FilterNone as UIElementsIcon,
+  ArrowBack as ArrowBackIcon, FilterNone as UIElementsIcon,
   List as ListIcon, HelpOutline as FAQIcon, Home as HomeIcon,
   LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon,
   QuestionAnswer as SupportIcon

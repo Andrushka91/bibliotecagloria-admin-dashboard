@@ -4,12 +4,12 @@ import Pagination from "rc-pagination";
 import SearchBar from "material-ui-search-bar";
 import './styles.css';
 import ClearIcon from '@mui/icons-material/Clear';
-import SearchIcon from '@mui/icons-material/Search';
+
 
 const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalItems, items, deleteBook }) => {
     const [collection, setCollection] = useState(items);
     const [currentPage, setCurrentPage] = useState(page);
-    const [disablePagination, setDisablePagination] = useState(false);
+const [disablePagination, sebtDisablePagination] = useState(false);
 
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalIt
     const searchData = (value) => {
         const query = value.toLowerCase();
         // const data = collection.filter(item => item.title.toLowerCase().indexOf(query) > -1)
-        if (query == '') {
+        if (query === '') {
             setDisablePagination(false);
         } else {
             setDisablePagination(true);
@@ -37,14 +37,14 @@ const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalIt
         const { key, index } = rowData;
         const tableCell = Object.keys(tableHead);
         const columnData = tableCell.map((keyD, i) => {
-            if (keyD == 'image') {
+            if (keyD === 'image') {
                 const source = key[keyD];
                 return <td key={i} style={{ textAlign: 'left', width: 100 }}><img style={{ width: 100 }} src={source} /></td>;
             }
-            if (keyD == '_id') {
+            if (keyD === '_id') {
                 return <td key={i}><ClearIcon style={{ cursor: 'pointer' }} onClick={() => { deleteBook(key[keyD]) }} /></td>;
             }
-            if (keyD == 'price') {
+            if (keyD === 'price') {
                 return <td key={i}>{key[keyD] + '€'} </td>;
             }
             return <td key={i}>{key[keyD]}</td>;

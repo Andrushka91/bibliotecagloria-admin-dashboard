@@ -8,6 +8,7 @@ import Widget from "./Widget";
 import DataTable from "../dashboard/components/TableOrderBooks/CustomizedTables";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
+import { borderColor } from "@mui/system";
 
 const useStyles = makeStyles(theme => ({
   tableOverflow: {
@@ -19,44 +20,36 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Orders() {
-
-  const { state, fetchOrders } = useContext(OrdersContext);
-  const [ordersData, setOrdersData] = useState([]);
+  const { state, fetchOrders, processOrder, cancelOrder } = useContext(OrdersContext);
   const [orderBooks, setOrderBooks] = useState([]);
   const [orderId, setOrderId] = useState('');
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [statusChanged, setStatusChanged] = useState(false);
   const classes = useStyles();
+  var itemsPerPage = 5;
+
+  // useEffect(() => {
+  //   fetchData(1);
+  // }, []);
 
   useEffect(() => {
-    fetchOrders(handleToggle, handleClose);
-  }, []);
+    fetchData(page);
+  }, [statusChanged]);
 
-  useEffect(() => {
-    const dataList = [];//€
-    state.forEach((index) => {
-      const item = Object.keys(index).
-        filter((key) => !key.includes('_id') && !key.includes('books') && !key.includes('_v')).
-        reduce((entry, key) => {
-          return Object.assign(entry, { [key]: index[key] })
-        }, {});
-      dataList.push(item);
-    })
-    const dispatchData = [];
-    dataList.forEach((item) => {
-      item.totalPrice = item.totalPrice + '€';
-      dispatchData.push(Object.values(item));
-    })
-    setOrdersData(dispatchData);
-  }, [state]);
+  const fetchData = (page) => {
+    fetchOrders(handleToggle, page, itemsPerPage, handleClose);
+  }
 
   const getOrderBooks = orderId => {
-    const order = state.find((t) => t.orderId === orderId)
+    console.log('state.orders:', state.orders)
+    const order = state.orders.find((e) => e[0] == orderId)
+    console.log("order:", order)
     const tableData = [];
-    order['books'].forEach((index) => {
+    order[5].forEach((index) => {
       const item = Object.keys(index).
         filter((key) => !key.includes('price') && !key.includes('_v')).
         reduce((entry, key) => { return Object.assign(entry, { [key]: index[key] }) }, {});
-        console.log("item:",item)
       tableData.push(item);
     })
     setOrderBooks(tableData);
@@ -69,19 +62,74 @@ export default function Orders() {
   const handleToggle = () => {
     setOpen(!open);
   };
+  const changeStatus = () => {
+    setStatusChanged(!statusChanged);
+  }
 
+  const orderCancelation = () => {
+    console.log("statusChanged)", statusChanged);
+    cancelOrder(handleToggle, orderId, changeStatus, handleClose);
+    console.log("currentPage:", page);
+    console.log("statusChangedAfter)", statusChanged);
+  };
 
-  const deleteOrder = () => {
-    console.log("Order has been deleted")
+  const orderProcess = () => {
+    console.log("statusChanged)", statusChanged);
+    processOrder(handleToggle, orderId, changeStatus, handleClose);
+    console.log("currentPage:", page);
+    console.log("statusChanged)", statusChanged);
   }
 
   const options = {
     filter: true,
     selectableRows: 'none',
-    filterType: "dropdown",
-    responsive: "standard",
-    rowsPerPage: 10,
+    filterType: 'dropdown',
+    responsive: 'standard',
+    serverSide: true,
+    rowsPerPage: itemsPerPage,
+    rowsPerPageOptions: [],
+    setRowProps: row => {
+      // return {
+      //   style: { cursor: 'pointer' }
+      // };
+      if (row[4] === "anulată") {
+        return {
+          style: {
+            background: 'rgba(247, 46, 85, 0.8)',
+            cursor: 'pointer'
+          }
+        };
+      }
+      if (row[4] === "procesată") {
+        return {
+          style: {
+            background: 'rgba(103, 220, 89, 0.8)',
+            cursor: 'pointer'
+          }
+        };
+      }
+      if (row[4] === "în procesare") {
+        return {
+          style: {
+            cursor: 'pointer'
+          }
+        };
+      }
+    },
+    sortOrder: {},
+    count: state.totalItems,
     selectableRowsOnClick: false,
+    onTableChange: (action, tableState) => {
+      switch (action) {
+        case 'changePage':
+          fetchData(tableState.page + 1);
+          setPage(tableState.page + 1);
+          // case 'onColumnViewChange':
+          //   fetchData(page);
+          break;
+        default:
+      }
+    },
 
     // onRowsDelete: rowsDeleted => {
     //   console.log(rowsDeleted, "were deleted!");
@@ -157,7 +205,7 @@ export default function Orders() {
       }
     },
     {
-      name: "STATUS",
+      name: "STARE",
       options: {
         filter: true,
         customHeadRender: (columnMeta, updateDirection) => (
@@ -172,6 +220,7 @@ export default function Orders() {
   return (
     <>
       <PageTitle title="Comenzi" />
+
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
@@ -181,24 +230,22 @@ export default function Orders() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <MUIDataTable
-            data={ordersData}
+            data={state.orders}
             columns={columns}
-            options={
-              options
-            }
+            options={options}
           />
         </Grid>
-
-        {
-          orderBooks.length ?
-            (
-              <Grid item xs={12}>
-                <Widget disableWidgetMenu deleteOrder={deleteOrder} title={orderId} bodyClass={classes.tableOverflow}>
-                  <DataTable data={orderBooks} />
-                </Widget>
-              </Grid>
-            )
-            : null
+        {orderBooks.length ? (
+          <Grid item xs={12}>
+            <Widget disableWidgetMenu
+              processOrder={orderProcess}
+              orderCancelation={orderCancelation}
+              title={orderId} bodyClass={classes.tableOverflow}>
+              <DataTable data={orderBooks} />
+            </Widget>
+          </Grid>
+        )
+          : null
         }
       </Grid>
     </>
