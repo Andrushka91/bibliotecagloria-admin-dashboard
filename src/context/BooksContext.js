@@ -21,7 +21,6 @@ const searchBook = dispatch => async (title) => {
     const res = await booksApi.get('/search', { params: { title } })
     console.log("Payload after search:", res.data)
     dispatch({ type: 'search_book', payload: res.data })
-
 }
 
 const fetchBooks = dispatch => async (handleToggle, page, itemsPerPage, handleClose) => {
@@ -67,7 +66,6 @@ const deleteBook = dispatch => async (handleToggle, id, handleClose) => {
         handleClose();
     }
 }
-
 
 export const { Provider, Context } = createDataContext(
     bookReducer,

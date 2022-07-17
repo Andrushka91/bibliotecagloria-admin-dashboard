@@ -20,12 +20,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Orders() {
-  const { state, fetchOrders, processOrder, cancelOrder } = useContext(OrdersContext);
+  const { state, fetchOrders, searchOrder, processOrder, cancelOrder } = useContext(OrdersContext);
   const [orderBooks, setOrderBooks] = useState([]);
   const [orderId, setOrderId] = useState('');
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [statusChanged, setStatusChanged] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const classes = useStyles();
   var itemsPerPage = 5;
 
@@ -39,6 +40,7 @@ export default function Orders() {
 
   const fetchData = (page) => {
     fetchOrders(handleToggle, page, itemsPerPage, handleClose);
+    console.log("state:", state)
   }
 
   const getOrderBooks = orderId => {
@@ -67,23 +69,34 @@ export default function Orders() {
   }
 
   const orderCancelation = () => {
-    console.log("statusChanged)", statusChanged);
+    console.log("orderId:", orderId);
     cancelOrder(handleToggle, orderId, changeStatus, handleClose);
-    console.log("currentPage:", page);
-    console.log("statusChangedAfter)", statusChanged);
+
   };
 
   const orderProcess = () => {
-    console.log("statusChanged)", statusChanged);
     processOrder(handleToggle, orderId, changeStatus, handleClose);
-    console.log("currentPage:", page);
-    console.log("statusChanged)", statusChanged);
+  }
+
+  const searchByOrderId = (searchByOrderId) => {
+    console.log("searchByOrderId:", searchByOrderId)
+    if (searchByOrderId !== null) {
+      searchOrder(handleToggle, searchByOrderId, handleClose);
+    } else {
+      fetchData(page);
+    }
   }
 
   const options = {
-    filter: true,
+    filter: false,
+    viewColumns: false,
+    search: true,
+    searchText: searchText,
+    onSearchChange: (searchText) => {
+      setSearchText(searchText)
+    },
+    searchTextControlled: true,
     selectableRows: 'none',
-    filterType: 'dropdown',
     responsive: 'standard',
     serverSide: true,
     rowsPerPage: itemsPerPage,
@@ -123,9 +136,9 @@ export default function Orders() {
       switch (action) {
         case 'changePage':
           fetchData(tableState.page + 1);
-          setPage(tableState.page + 1);
-          // case 'onColumnViewChange':
-          //   fetchData(page);
+        case 'onColumnViewChange':
+          // case 'search':
+          // searchByOrderId(searchText);
           break;
         default:
       }
@@ -185,7 +198,7 @@ export default function Orders() {
     {
       name: "EMAIL",
       options: {
-        filter: false,
+        filter: true,
         customHeadRender: (columnMeta, updateDirection) => (
           <th key={3} style={{ color: 'white', padding: 16, fontFamily: 'sans-serif', fontWeight: 'normal' }}>
             {columnMeta.name}
@@ -229,18 +242,21 @@ export default function Orders() {
       </Backdrop>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <MUIDataTable
-            data={state.orders}
-            columns={columns}
-            options={options}
-          />
+          <div onKeyPress={(e) => e.key === 'Enter' && searchByOrderId(searchText)}>
+            <MUIDataTable
+              data={state.orders}
+              columns={columns}
+              options={options}
+            />
+          </div>
         </Grid>
         {orderBooks.length ? (
           <Grid item xs={12}>
             <Widget disableWidgetMenu
               processOrder={orderProcess}
               orderCancelation={orderCancelation}
-              title={orderId} bodyClass={classes.tableOverflow}>
+              title={orderId}
+              bodyClass={classes.tableOverflow}>
               <DataTable data={orderBooks} />
             </Widget>
           </Grid>

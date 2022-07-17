@@ -5,11 +5,11 @@ const ordersReducer = (state, action) => {
     switch (action.type) {
         case 'fetch_orders':
             return action.payload
-        case 'search_book':
-            return action.payload
-        case 'cancel_order':
+        case 'search_order':
             return action.payload
         case 'process_order':
+            return action.payload
+        case 'cancel_order':
             return action.payload
         default:
             return state
@@ -35,7 +35,6 @@ const fetchOrders = dispatch => async (handleToggle, page, itemsPerPage, handleC
         }
         handleToggle();
         const res = await booksApi.get('/orders', { params })
-        console.log("res", res.data)
         const totalItems = res.data.totalItems;
         const dataList = [];//€
         res.data.items.forEach((index) => {
@@ -58,11 +57,33 @@ const fetchOrders = dispatch => async (handleToggle, page, itemsPerPage, handleC
     }
 }
 
-const searchOrder = dispatch => async (title) => {
-    console.log("searchedTitle:", title);
-    const res = await booksApi.get('/search', { params: { title } })
-    console.log("Payload after search:", res.data)
-    dispatch({ type: 'search_book', payload: res.data })
+const searchOrder = dispatch => async (handleToggle, orderId, handleClose) => {
+    try {
+        handleToggle();
+        const res = await booksApi.get('/searchOrder', { params: { orderId } })
+        const totalItems = res.data.totalItems;
+        const dataList = [];//€
+        console.log()
+        res.data.items.forEach((index) => {
+            const item = Object.keys(index).
+                filter((key) => !key.includes('_id') && !key.includes('_v')).
+                reduce((entry, key) => {
+                    return Object.assign(entry, { [key]: index[key] })
+                }, {});
+            dataList.push(item);
+        })
+        const orders = [];
+        dataList.forEach((item) => {
+            item.totalPrice = item.totalPrice + '€';
+            orders.push(Object.values(item));
+        })
+        handleClose();
+        dispatch({ type: 'search_order', payload: { orders, totalItems } })
+    } catch (err) {
+        dispatch({ tpye: 'search_order', payload: err.message })
+        handleClose();
+    }
+
 }
 
 const processOrder = dispatch => async (handleToggle, orderId, changeStatus, handleClose) => {
@@ -93,6 +114,6 @@ const cancelOrder = dispatch => async (handleToggle, orderId, changeStatus, hand
 
 export const { Provider, Context } = createDataContext(
     ordersReducer,
-    { fetchOrders, processOrder, cancelOrder },
+    { fetchOrders, searchOrder, processOrder, cancelOrder },
     []
 )
