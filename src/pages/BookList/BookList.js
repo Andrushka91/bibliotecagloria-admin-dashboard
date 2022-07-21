@@ -29,7 +29,6 @@ export default function BookListPage() {
   const classes = useStyles();
   let itemsPerPage = 3;
 
-
   const tableHead = {
     image: '',
     title: 'TITLU',
@@ -47,14 +46,12 @@ export default function BookListPage() {
 
   useEffect(() => {
 
-    console.log("useEffect when item was deleted triggered!")
     if (state.items) {
       if (state.items.length === 1) {
         fetchBooks(handleToggle, page - 1, itemsPerPage, handleClose)
       }
     }
     fetchBooks(handleToggle, page, itemsPerPage, handleClose)
-    console.log("state-useEffect:", state)
   }, [itemDeleted, itemEdited]);
 
   useEffect(() => {
@@ -96,11 +93,6 @@ export default function BookListPage() {
   const handleModalAlertClose = () => {
     setModalAlertOpen(false);
   };
-  const pageRefreshAfterDelete = () => {
-    // if (state.length < itemsPerPage) {
-    //   setPage(page - 1);
-    // }
-  }
 
   const editBook = (id) => {
     setBookId(id);

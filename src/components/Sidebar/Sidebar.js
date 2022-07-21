@@ -26,7 +26,7 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
+  { id: 0, type: "title", label: "NAVIGARE" },
   {
     id: 1,
     label: "Bibliotecă",
@@ -35,48 +35,6 @@ const structure = [
   },
   { id: 2, label: "Adăugare carte", link: "/app/AddBook", icon: <MenuBookIcon /> },
   { id: 3, label: "Listă Comenzi", link: "/app/Orders", icon: <ListIcon /> },
-  {
-    id: 4,
-    label: "Notifications",
-    link: "/app/notifications",
-    icon: <NotificationsIcon />,
-  },
-  {
-    id: 5,
-    label: "UI Elements",
-    link: "/app/ui",
-    icon: <UIElementsIcon />,
-    children: [
-      { label: "Icons", link: "/app/ui/icons" },
-      { label: "Charts", link: "/app/ui/charts" },
-      { label: "Maps", link: "/app/ui/maps" },
-    ],
-  },
-  { id: 6, type: "divider" },
-  { id: 7, type: "title", label: "HELP" },
-  { id: 8, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
-  { id: 9, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
-  { id: 10, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },
-  { id: 11, type: "divider" },
-  { id: 12, type: "title", label: "PROJECTS" },
-  {
-    id: 13,
-    label: "My recent",
-    link: "",
-    icon: <Dot size="small" color="warning" />,
-  },
-  {
-    id: 14,
-    label: "Starred",
-    link: "",
-    icon: <Dot size="small" color="primary" />,
-  },
-  {
-    id: 15,
-    label: "Background",
-    link: "",
-    icon: <Dot size="small" color="secondary" />,
-  },
 ];
 
 function Sidebar({ location }) {

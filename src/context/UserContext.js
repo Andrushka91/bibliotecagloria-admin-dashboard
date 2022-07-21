@@ -67,7 +67,7 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
         setError(null)
         setIsLoading(false)
         dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true })
-        history.push('/app/dashboard')
+        history.push('/app/BookList')
       } catch (error) {
         console.log("ERROR:", error);
         setError(true);

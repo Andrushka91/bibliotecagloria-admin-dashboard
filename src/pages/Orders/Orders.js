@@ -5,7 +5,7 @@ import MUIDataTable from "mui-datatables";
 import { Context as OrdersContext } from '../../context/OrdersContext';
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Widget from "./Widget";
-import DataTable from "../dashboard/components/TableOrderBooks/CustomizedTables";
+import DataTable from "../components/TableOrderBooks/CustomizedTables";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 import { borderColor } from "@mui/system";

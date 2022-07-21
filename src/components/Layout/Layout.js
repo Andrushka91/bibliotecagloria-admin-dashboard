@@ -21,7 +21,6 @@ import Sidebar from "../Sidebar";
 // pages
 
 import Charts from "../../pages/charts";
-import Dashboard from "../../pages/dashboard";
 import Icons from "../../pages/icons";
 import Notifications from "../../pages/notifications";
 import BookList from "../../pages/bookList/BookList";
@@ -48,7 +47,6 @@ function Layout(props) {
           >
             <div className={classes.fakeToolbar} />
             <Switch>
-              <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/BookList" component={BookList} />
               <Route path="/app/AddBook" component={AddBook} />
               <Route path="/app/Orders" component={Orders} />         

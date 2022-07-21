@@ -16,7 +16,7 @@ import classnames from "classnames";
 import useStyles from "./styles";
 
 // logo
-import logo from "./logo.svg";
+import logo from "./logo.png";
 import google from "../../images/google.svg";
 
 // context
@@ -40,7 +40,7 @@ function Login(props) {
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         <img src={logo} alt="logo" className={classes.logotypeImage} />
-        <Typography className={classes.logotypeText}>Material Admin</Typography>
+        <Typography className={classes.logotypeText}>Biblioteca Gloria</Typography>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
@@ -57,7 +57,7 @@ function Login(props) {
           {activeTabId === 0 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-                Good Morning, User
+                Bine ai venit!
               </Typography>
               <Button size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
