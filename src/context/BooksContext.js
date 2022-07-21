@@ -11,6 +11,8 @@ const bookReducer = (state, action) => {
             return action.payload
         case 'add_book':
             return action.payload
+        case 'update_book':
+            return action.payload
         case 'delete_book':
             return action.payload
         default:
@@ -31,9 +33,9 @@ const fetchBooks = dispatch => async (handleToggle, page, itemsPerPage, handleCl
         }
         handleToggle();
         const res = await booksApi.get('/books', { params })
-        console.log("res:",res.data)
+        console.log("res:", res.data)
         handleClose();
-      
+
         dispatch({ type: 'fetch_books', payload: res.data })
     } catch (err) {
         console.log("UseBookDispatchError:", err)
@@ -54,21 +56,39 @@ const addBook = dispatch => async (handleToggle, setSuccess, book, handleClose) 
     }
 }
 
-const deleteBook = dispatch => async (handleToggle, id, handleClose) => {
+const updateBook = dispatch => async (handleToggle, book, itemEdited, setItemEdited, bookId, handleModalEditClose, handleClose) => {
     try {
         handleToggle();
-        await booksApi.delete('/book', { data: { id } }).then((data) => {
+        await booksApi.patch('/book', { ...book, bookId }).then((data) => {
+            console.log("data:", data);
+            console.log("itemEdited:", itemEdited)
+            handleModalEditClose();
             handleClose();
+            setItemEdited(!itemEdited);
             // dispatch({ type: 'delete_book', payload: data.data })
         });
     } catch (err) {
+        dispatch({ type: 'update_book', payload: err.message })
+        handleClose();
+    }
+}
+
+const deleteBook = dispatch => async (handleToggle, bookId, handleClose, handleModalAlertClose, itemDeleted, setItemDeleted) => {
+    try {
+        handleToggle();
+        await booksApi.delete('/book', { data: { bookId } });
+        handleModalAlertClose();
+        handleClose();
+        setItemDeleted(!itemDeleted);
+    } catch (err) {
         dispatch({ type: 'delete_book', payload: err.message })
+        handleModalAlertClose();
         handleClose();
     }
 }
 
 export const { Provider, Context } = createDataContext(
     bookReducer,
-    { addBook, fetchBooks, searchBook, deleteBook },
+    { addBook, fetchBooks, searchBook, updateBook, deleteBook },
     []
 )

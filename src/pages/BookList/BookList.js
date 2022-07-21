@@ -1,14 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { Context as BooksContext } from '../../context/BooksContext';
 import "./table-styles.css";
+import useStyles from "./styles";
 import Table from "../../components/table-pagination/table";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Box from '@material-ui/core/Box'
+import Modal from '@mui/material/Modal';
+import BookForm from "../../components/BookForm/BookForm";
 
 export default function BookListPage() {
   const { state, fetchBooks, searchBook, deleteBook } = useContext(BooksContext);
@@ -16,43 +19,43 @@ export default function BookListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [queryUsed, setQueryUsed] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [bookId, setBookId] = useState('');
+  const [book, setBook] = useState();
   const [open, setOpen] = useState(false);
-
+  const [modalEditOpen, setModalEditOpen] = useState(false);
+  const [modalAlertOpen, setModalAlertOpen] = useState(false);
+  const [itemDeleted, setItemDeleted] = useState(false);
+  const [itemEdited, setItemEdited] = useState(false);
+  const classes = useStyles();
   let itemsPerPage = 3;
 
+
   const tableHead = {
-    image: "",
-    title: "TITLU",
-    author: "AUTOR",
-    description: "DESCRIERE",
-    category: "CATEGORIE",
-    quantity:'CANTITATE',
-    price: "PREȚ",
-    '_id': ''
+    image: '',
+    title: 'TITLU',
+    author: 'AUTOR',
+    description: 'DESCRIERE',
+    category: 'CATEGORIE',
+    quantity: 'CANTITATE',
+    price: 'PREȚ',
+    '_id': 'EDITARE',
   };
 
-  const successMessage = () => {
-    return (
-      <Box padding={1}>
-        <Stack sx={{ width: '100%' }} spacing={2}>
-          <Alert severity="success">{alertMessage}</Alert>
-        </Stack>
-      </Box>
-    )
-  }
+  useEffect(() => {
+    fetchBooks(handleToggle, page, itemsPerPage, handleClose)
+  }, [page]);
 
   useEffect(() => {
-    if (state.items !== undefined) {
-      if (state.items.length === 0) {
+
+    console.log("useEffect when item was deleted triggered!")
+    if (state.items) {
+      if (state.items.length === 1) {
         fetchBooks(handleToggle, page - 1, itemsPerPage, handleClose)
       }
     }
     fetchBooks(handleToggle, page, itemsPerPage, handleClose)
-
-
-  }, [page, state.totalItems]);
-
-
+    console.log("state-useEffect:", state)
+  }, [itemDeleted, itemEdited]);
 
   useEffect(() => {
     console.log("useEffect:querry:", searchQuery);
@@ -65,13 +68,33 @@ export default function BookListPage() {
     }
   }, [searchQuery, queryUsed]);
 
-
-
+  const successMessage = () => {
+    return (
+      <Box padding={1}>
+        <Stack sx={{ width: '100%' }} spacing={2}>
+          <Alert severity="success">{alertMessage}</Alert>
+        </Stack>
+      </Box>
+    )
+  }
   const handleClose = () => {
     setOpen(false);
   };
   const handleToggle = () => {
     setOpen(!open);
+  };
+  const handleModalEditOpen = () => {
+    setModalEditOpen(true);
+  };
+  const handleModalEditClose = () => {
+    setModalEditOpen(false);
+  };
+
+  const handleModalAlertOpen = () => {
+    setModalAlertOpen(true);
+  };
+  const handleModalAlertClose = () => {
+    setModalAlertOpen(false);
   };
   const pageRefreshAfterDelete = () => {
     // if (state.length < itemsPerPage) {
@@ -79,8 +102,46 @@ export default function BookListPage() {
     // }
   }
 
+  const editBook = (id) => {
+    setBookId(id);
+    const findBook = state.items.find((t) => t._id === id);
+    setBook(findBook);
+
+    handleModalEditOpen();
+    // updateBook(handleToggle, id, itemsPerPage, handleClose)
+  }
+
+  const eraseBook = async () => {
+    deleteBook(handleToggle, bookId, handleClose, handleModalAlertClose, itemDeleted, setItemDeleted);
+    console.log("currentPage:", page)
+  }
+
   return (
     <>
+      <Modal
+        open={modalEditOpen}
+        onClose={handleModalEditClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box className={classes.modal}>
+          <BookForm book={book} bookId={bookId} itemEdited={itemEdited} setItemEdited={setItemEdited} handleModalEditClose={handleModalEditClose} />
+        </Box>
+      </Modal>
+      <Modal
+        open={modalAlertOpen}
+        onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box className={classes.modalDialog}>
+          <h2 id="parent-modal-title"> Esti sigur că vrei sa continui?</h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Button className={classes.confirmButton} onClick={() => eraseBook()}>Confirmare</Button>
+            <Button className={classes.cancelButton} onClick={() => handleModalAlertClose()}>Anulare</Button>
+          </div>
+        </Box>
+      </Modal>
       <PageTitle title="Listă cărți" />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -94,7 +155,8 @@ export default function BookListPage() {
             tableHead={tableHead}
             requestPage={(page) => setPage(page)}
             searchBook={(value) => { setSearchQuery(value); setQueryUsed(!queryUsed) }}
-            deleteBook={(id) => { deleteBook(handleToggle, id, itemsPerPage, handleClose) }}
+            deleteBook={(id) => { setBookId(id); handleModalAlertOpen(); }}
+            updateBook={(id) => { editBook(id) }}
             countPerPage={itemsPerPage}
             page={page}
             totalItems={state.totalItems}

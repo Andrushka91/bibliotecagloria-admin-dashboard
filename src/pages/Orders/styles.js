@@ -100,7 +100,6 @@ export default makeStyles(theme => ({
     pt: 2,
     px: 4,
     pb: 3,
-
   }
 
 }));

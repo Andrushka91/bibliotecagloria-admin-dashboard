@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "rc-pagination/assets/index.css";
+import './styles.css';
 import Pagination from "rc-pagination";
 import SearchBar from "material-ui-search-bar";
-import './styles.css';
-import ClearIcon from '@mui/icons-material/Clear';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-
-const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalItems, items, deleteBook }) => {
+const Table = ({ tableHead, requestPage, searchBook, countPerPage, page, totalItems, items, updateBook, deleteBook }) => {
     const [collection, setCollection] = useState(items);
     const [currentPage, setCurrentPage] = useState(page);
-const [disablePagination, sebtDisablePagination] = useState(false);
-
+    const [disablePagination, setDisablePagination] = useState(false);
 
     useEffect(() => {
         setCollection(items);
@@ -32,7 +31,7 @@ const [disablePagination, sebtDisablePagination] = useState(false);
         setCurrentPage(p);
         requestPage(p);
     };
-
+ 
     const tableRows = rowData => {
         const { key, index } = rowData;
         const tableCell = Object.keys(tableHead);
@@ -42,7 +41,12 @@ const [disablePagination, sebtDisablePagination] = useState(false);
                 return <td key={i} style={{ textAlign: 'left', width: 100 }}><img style={{ width: 100 }} src={source} /></td>;
             }
             if (keyD === '_id') {
-                return <td key={i}><ClearIcon style={{ cursor: 'pointer' }} onClick={() => { deleteBook(key[keyD]) }} /></td>;
+                return <td key={i}>
+                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => { updateBook(key[keyD]) }} />
+                    <br />
+                    <br />
+                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => { deleteBook(key[keyD]) }} />
+                </td>;
             }
             if (keyD === 'price') {
                 return <td key={i}>{key[keyD] + '€'} </td>;
@@ -61,7 +65,6 @@ const [disablePagination, sebtDisablePagination] = useState(false);
             <td key={index} style={{ fontSize: 16 }}>{title}</td>
         ));
     };
-
     return (
         <>
             <SearchBar
