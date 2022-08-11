@@ -1,7 +1,7 @@
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
   ArrowBack as ArrowBackIcon, FilterNone as UIElementsIcon,
-  List as ListIcon, HelpOutline as FAQIcon, Home as HomeIcon,
+  List as ListIcon, PersonAdd as AdminIcon, HelpOutline as FAQIcon, Home as HomeIcon,
   LibraryBooks as LibraryIcon, NotificationsNone as NotificationsIcon,
   QuestionAnswer as SupportIcon
 } from "@material-ui/icons";
@@ -35,6 +35,7 @@ const structure = [
   },
   { id: 2, label: "Adăugare carte", link: "/app/AddBook", icon: <MenuBookIcon /> },
   { id: 3, label: "Listă Comenzi", link: "/app/Orders", icon: <ListIcon /> },
+  { id: 4, label: "Utilizatori", link: "/app/UsersManagement", icon: <AdminIcon /> },
 ];
 
 function Sidebar({ location }) {

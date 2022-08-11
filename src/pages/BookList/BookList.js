@@ -45,7 +45,6 @@ export default function BookListPage() {
   }, [page]);
 
   useEffect(() => {
-
     if (state.items) {
       if (state.items.length === 1) {
         fetchBooks(handleToggle, page - 1, itemsPerPage, handleClose)

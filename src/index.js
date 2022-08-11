@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import App from "./components/App";
 import { Provider as BooksProvider } from './context/BooksContext';
 import { Provider as OrdersProvider } from './context/OrdersContext';
+import { Provider as UserManagementProvider } from './context/UserManagementContext';
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
 
@@ -16,14 +17,16 @@ const root = createRoot(container);
 root.render(
   <LayoutProvider>
     <UserProvider>
-      <BooksProvider>
-        <OrdersProvider>
-          <ThemeProvider theme={Themes.default}>
-            <CssBaseline />
-            <App />
-          </ThemeProvider>
-        </OrdersProvider>
-      </BooksProvider>
+      <UserManagementProvider >
+        <BooksProvider>
+          <OrdersProvider>
+            <ThemeProvider theme={Themes.default}>
+              <CssBaseline />
+              <App />
+            </ThemeProvider>
+          </OrdersProvider>
+        </BooksProvider>
+      </UserManagementProvider>
     </UserProvider>
   </LayoutProvider>
 );

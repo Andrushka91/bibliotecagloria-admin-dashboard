@@ -28,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-export default function CustomizedTables({ data }) {
+export default function TableOrderDetail({ data }) {
 
     function createData(_id, image, title, author, quantity, description, category) {
         return { _id, image, title, author, quantity, description, category };

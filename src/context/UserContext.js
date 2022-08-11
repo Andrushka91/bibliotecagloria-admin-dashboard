@@ -8,6 +8,8 @@ function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN_SUCCESS":
       return { ...state, isAuthenticated: true };
+    case "SIGNUP_SUCCESS":
+      return action.payload;
     case "LOGIN_FAILURE":
       return { ...state, isAuthenticated: false };
     case "SIGN_OUT_SUCCESS":
@@ -48,11 +50,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
-
-// ###########################################################
-
-function loginUser(dispatch, email, password, history, setIsLoading, setError) {
+function signIn(dispatch, email, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
 
@@ -69,33 +67,37 @@ function loginUser(dispatch, email, password, history, setIsLoading, setError) {
         dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true })
         history.push('/app/BookList')
       } catch (error) {
-        console.log("ERROR:", error);
         setError(true);
         setIsLoading(false);
         dispatch({ type: 'LOGIN_FAILURE', isAuthenticated: false })
       }
     }
-  )();
+  )
+    ();
 }
-
-// if (!!login && !!password) {
-//   setTimeout(() => {
-//     localStorage.setItem('id_token', 1)
-//     setError(null)
-//     setIsLoading(false)
-//     dispatch({ type: 'LOGIN_SUCCESS' })
-
-//     history.push('/app/dashboard')
-//   }, 2000);
-// } else {
-//   dispatch({ type: "LOGIN_FAILURE" });
-//   setError(true);
-//   setIsLoading(false);
-// }
-
+const signUp = async (dispatch, name, email, password, setIsLoading, setSuccess, setError) => {
+  setError(false);
+  setIsLoading(true);
+  try {
+    const userType = 'admin';
+    console.log("signupData:", name, email, userType, password);
+    const { data } = await booksApi.post('/signup', { name, email, userType, password });
+    console.log("data:", data);
+    setSuccess(true);
+    setError(null)
+    setIsLoading(false)
+  } catch (error) {
+    setSuccess(false);
+    setError(true);
+    setIsLoading(false);
+    console.log("error:", error)
+  }
+}
 
 function signOut(dispatch, history) {
   localStorage.removeItem("token");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }
+
+export { UserProvider, useUserState, useUserDispatch, signIn, signUp, signOut };

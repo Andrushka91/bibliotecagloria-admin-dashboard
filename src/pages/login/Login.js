@@ -20,7 +20,7 @@ import logo from "./logo.png";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { useUserDispatch, signIn } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -59,13 +59,14 @@ function Login(props) {
               <Typography variant="h1" className={classes.greeting}>
                 Bine ai venit!
               </Typography>
-              <Button size="large" className={classes.googleButton}>
+              {/* <Button size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
                 &nbsp;Sign in with Google
               </Button>
+          */}
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
-                <Typography className={classes.formDividerWord}>or</Typography>
+                <Typography className={classes.formDividerWord}></Typography>
                 <div className={classes.formDivider} />
               </div>
               <Fade in={error}>
@@ -84,7 +85,7 @@ function Login(props) {
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
-                placeholder="Email Adress"
+                placeholder="Adresa de email"
                 type="email"
                 fullWidth
               />
@@ -99,7 +100,7 @@ function Login(props) {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
-                placeholder="Password"
+                placeholder="Parola"
                 type="password"
                 fullWidth
               />
@@ -111,21 +112,22 @@ function Login(props) {
                     disabled={
                       loginValue.length === 0 || passwordValue.length === 0
                     }
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
+                    onClick={
+                      () =>
+                        signIn(
+                          userDispatch,
+                          loginValue,
+                          passwordValue,
+                          props.history,
+                          setIsLoading,
+                          setError,
+                        )
                     }
                     variant="contained"
                     color="primary"
                     size="large"
                   >
-                    Login
+                    Autentificare
                   </Button>
                 )}
                 <Button
@@ -133,7 +135,7 @@ function Login(props) {
                   size="large"
                   className={classes.forgetButton}
                 >
-                  Forget Password
+                  Ai uitat parola?
                 </Button>
               </div>
             </React.Fragment>
@@ -202,7 +204,7 @@ function Login(props) {
                 ) : (
                   <Button
                     onClick={() =>
-                      loginUser(
+                      signIn(
                         userDispatch,
                         loginValue,
                         passwordValue,
@@ -245,7 +247,7 @@ function Login(props) {
           )}
         </div>
         <Typography color="primary" className={classes.copyright}>
-          © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} href="https://flatlogic.com" rel="noopener noreferrer" target="_blank">Flatlogic</a>, LLC. All rights reserved.
+          ©{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} href="#" rel="noopener noreferrer" target="_blank">BibliotecaGloria</a>
         </Typography>
       </div>
     </Grid>
