@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import "rc-pagination/assets/index.css";
-import './styles.css';
 import Pagination from "rc-pagination";
 import SearchBar from "material-ui-search-bar";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import useStyles from "./styles";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import SignUp from '../SignUp/SignUp'
 
-const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser, countPerPage, page, totalItems, items }) => {
+const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser, countPerPage, page, totalItems, items, accountCreated, setAccountCreated }) => {
     const [collection, setCollection] = useState(items);
     const [currentPage, setCurrentPage] = useState(page);
     const [disablePagination, setDisablePagination] = useState(false);
+    const [openModalAddAccount, setOpenModalAddAccount] = useState(false);
+    const [userAdded,setUserAdded] = useState(false);
+    var classes = useStyles();
+
 
     useEffect(() => {
         setCollection(items);
     }, [items]);
+    
+    useEffect(() => {
+        setCollection(items);
+    }, [userAdded]);
 
     const searchData = (value) => {
         console.log("value:", value);
@@ -40,7 +51,7 @@ const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser
         const columnData = tableCell.map((keyD, i) => {
             if (keyD === '_id') {
                 return <td key={i}>
-                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => { updateUser(key[keyD]) }} />
+                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => {updateUser(key[keyD])}} />
                     <br />
                     <br />
                     <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => { deleteUser(key[keyD]) }} />
@@ -60,14 +71,42 @@ const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser
             <td key={index} style={{ fontSize: 16 }}>{title}</td>
         ));
     };
+
+    const handleOpenModalAddAccount = () => {
+        setOpenModalAddAccount(true);
+    }
+
+    const handleCloseModalAddAccount = () => {
+        setOpenModalAddAccount(false);
+    }
+
     return (
         <>
-            <SearchBar
-                placeholder="Caută după email"
-                onRequestSearch={(value) => searchData(value)}
-            />
+            <Modal
+                open={openModalAddAccount}
+                onClose={handleCloseModalAddAccount}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                <Box className={classes.modalAddAccount}>
+                    <SignUp handleCloseModalAddAccount={handleCloseModalAddAccount} accountCreated setAccountCreated  />
+                </Box>
+            </Modal>
 
-            <Button style={{ marginLeft: 10, marginTop: 4 }} variant="contained">Adaugă admin</Button>
+            <div style={{ display: 'flex', position: 'relative', width: '100%', margin: '0 auto', justifyContent: 'space-between' }} >
+                <SearchBar
+                    placeholder="Caută după email"
+                    onRequestSearch={(value) => searchData(value)}
+                />
+                <Button
+                    className={classes.confirmButton}
+                    variant="contained"
+                    onClick={() => { handleOpenModalAddAccount() }}
+                >
+                    Creare cont Admin
+                </Button>
+            </div>
+
 
             <table>
                 <thead style={{ color: "white", fontWeight: 'bold', fontSize: 22 }}>

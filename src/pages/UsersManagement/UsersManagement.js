@@ -11,10 +11,10 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Box from '@material-ui/core/Box'
 import Modal from '@mui/material/Modal';
-import BookForm from "../../components/BookForm/BookForm";
+import UserForm from "../../components/UserForm/UserForm";
 
 export default function UsersManagement() {
-    const { state, fetchUsers, searchUser } = useContext(UserManagementContext);
+    const { state, fetchUsers, searchUser, deleteUser } = useContext(UserManagementContext);
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [queryUsed, setQueryUsed] = useState(false);
@@ -23,9 +23,12 @@ export default function UsersManagement() {
     const [user, setUser] = useState();
     const [open, setOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
+    const [modalConfirmClose, setModalConfirmClose] = useState(false);
     const [modalAlertOpen, setModalAlertOpen] = useState(false);
     const [itemDeleted, setItemDeleted] = useState(false);
     const [itemEdited, setItemEdited] = useState(false);
+    const [accountCreated, setAccountCreated] = useState(false);
     const classes = useStyles();
     let itemsPerPage = 3;
 
@@ -37,7 +40,11 @@ export default function UsersManagement() {
     };
     useEffect(() => {
         fetchUsers(handleToggle, page, itemsPerPage, handleClose)
-    }, [page]);
+    }, [page, accountCreated]);
+
+    useEffect(() => {
+        fetchUsers(handleToggle, page, itemsPerPage, handleClose)
+    }, [itemEdited]);
 
     useEffect(() => {
         if (state.items) {
@@ -45,8 +52,8 @@ export default function UsersManagement() {
                 fetchUsers(handleToggle, page - 1, itemsPerPage, handleClose)
             }
         }
-         fetchUsers(handleToggle, page, itemsPerPage, handleClose)
-    }, [itemDeleted, itemEdited]);
+        fetchUsers(handleToggle, page, itemsPerPage, handleClose)
+    }, [itemDeleted]);
 
     useEffect(() => {
         if (searchQuery !== '') {
@@ -54,7 +61,7 @@ export default function UsersManagement() {
             itemsPerPage = state.totalItems;
             console.log("State after search:", state)
         } else {
-             fetchUsers(handleToggle, page, itemsPerPage, handleClose);
+            fetchUsers(handleToggle, page, itemsPerPage, handleClose);
         }
     }, [searchQuery, queryUsed]);
 
@@ -66,12 +73,6 @@ export default function UsersManagement() {
                 </Stack>
             </Box>
         )
-    }d
-    const editUser = (id) => {
-        setUserId(id);
-        const findUser = state.items.find((t) => t._id === id);
-        setUser(findUser);
-        handleModalEditOpen();
     }
 
     const handleClose = () => {
@@ -86,13 +87,22 @@ export default function UsersManagement() {
     const handleModalEditClose = () => {
         setModalEditOpen(false);
     };
-
-    const handleModalAlertOpen = () => {
-        setModalAlertOpen(true);
+    const handleModalConfirmOpen = () => {
+        setModalConfirmOpen(true);
     };
-    const handleModalAlertClose = () => {
-        setModalAlertOpen(false);
+    const handleModalConfirmClose = () => {
+        setModalConfirmOpen(false);
     };
+    const editUser = (id) => {
+        setUserId(id);
+        const findUser = state.items.find((t) => t._id === id);
+        setUser(findUser);
+        handleModalEditOpen();
+    }
+    const eraseUser = async () => {
+        deleteUser(userId,handleToggle,itemDeleted, setItemDeleted, handleClose, handleModalConfirmClose);
+        console.log("currentPage:", page)
+      }
 
     return (
         <>
@@ -106,18 +116,48 @@ export default function UsersManagement() {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
+
+            <Modal
+                open={modalEditOpen}
+                onClose={handleModalEditClose}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                <Box className={classes.modalEditUser}>
+                    <UserForm user={user} userId={userId} itemEdited={itemEdited} setItemEdited={setItemEdited} handleModalEditClose={handleModalEditClose} />
+                </Box>
+            </Modal>
+
+            <Modal
+                open={modalConfirmOpen}
+                onClose={handleModalConfirmClose}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                <Box className={classes.modalDialog}>
+                    <h2 id="parent-modal-title"> Esti sigur că vrei sa continui?</h2>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Button className={classes.confirmButton} onClick={() => eraseUser()}>Confirmare</Button>
+                        <Button className={classes.cancelButton} onClick={() => handleModalConfirmClose()}>Anulare</Button>
+                    </div>
+                </Box>
+            </Modal>
+
+
             <Grid container spacing={4}>
                 {state.items ?
                     <TableUsers
                         tableHead={tableHead}
                         requestPage={(page) => setPage(page)}
                         searchUser={(value) => { setSearchQuery(value); setQueryUsed(!queryUsed) }}
-                        deleteUser={(id) => { setUserId(id); handleModalAlertOpen(); }}
+                        deleteUser={(id) => { setUserId(id); handleModalConfirmOpen(); }}
                         updateUser={(id) => { editUser(id) }}
                         countPerPage={itemsPerPage}
                         page={page}
                         totalItems={state.totalItems}
                         items={state.items}
+                        accountCreated
+                        setAccountCreated
                     />
                     : null
                 }

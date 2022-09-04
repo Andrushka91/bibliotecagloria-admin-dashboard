@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box'
 import Modal from '@mui/material/Modal';
 import BookForm from "../../components/BookForm/BookForm";
 
-export default function BookListPage() {
+export default function BookList() {
   const { state, fetchBooks, searchBook, deleteBook } = useContext(BooksContext);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,7 +85,6 @@ export default function BookListPage() {
   const handleModalEditClose = () => {
     setModalEditOpen(false);
   };
-
   const handleModalAlertOpen = () => {
     setModalAlertOpen(true);
   };
@@ -97,7 +96,7 @@ export default function BookListPage() {
     setBookId(id);
     const findBook = state.items.find((t) => t._id === id);
     setBook(findBook);
-
+    console.log("bookBookliust:",book)
     handleModalEditOpen();
     // updateBook(handleToggle, id, itemsPerPage, handleClose)
   }

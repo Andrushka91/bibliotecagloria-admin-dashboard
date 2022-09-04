@@ -39,15 +39,12 @@ export default makeStyles(theme => ({
     },
   },
   formContainer: {
-    width: "40%",
+    width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    [theme.breakpoints.down("md")]: {
-      width: "50%",
-    },
+    alignItems: "center"
   },
   form: {
     width: 320,

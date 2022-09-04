@@ -16,9 +16,9 @@ import classnames from "classnames";
 import useStyles from "./styles";
 
 // context
-import { useUserDispatch, signUp } from "../../context/UserContext";
+import { useUserDispatch, signUp } from "../../../context/UserContext";
 
-function SignUp(props) {
+function SignUp({handleCloseModalAddAccount, accountCreated, setAccountCreated }) {
   var classes = useStyles();
 
   // global
@@ -33,11 +33,10 @@ function SignUp(props) {
   var [passwordValue, setPasswordValue] = useState("");
 
   return (
-    <Grid container className={classes.container}>
       <div className={classes.formContainer}>
         <div className={classes.form}>
           <React.Fragment>
-            <Typography variant="h2" className={classes.subGreeting}>
+            <Typography variant="h4" className={classes.subGreeting}>
               Crează cont administrator
             </Typography>
             <Fade in={error}>
@@ -109,6 +108,9 @@ function SignUp(props) {
                       setIsLoading,
                       setSuccess,
                       setError,
+                      handleCloseModalAddAccount,
+                      accountCreated, 
+                      setAccountCreated 
                     )
                   }
                   disabled={
@@ -138,7 +140,7 @@ function SignUp(props) {
           ©{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} href="#" rel="noopener noreferrer" target="_blank">BibliotecaGloria</a>
         </Typography>
       </div>
-    </Grid>
+    
   );
 }
 

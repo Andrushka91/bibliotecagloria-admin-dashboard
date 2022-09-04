@@ -64,7 +64,7 @@ export default function Orders() {
   const handleToggle = () => {
     setOpen(!open);
   };
-  const changeStatus = () => {
+const changeStatus = () => {
     setStatusChanged(!statusChanged);
   }
 

@@ -33,8 +33,35 @@ const searchUser = dispatch => async (email) => {
     dispatch({ type: 'searchBook', payload: res.data });
 }
 
+const updateUser = () => async (user, userId, itemEdited, setItemEdited,
+    handleBackDropToggle, handleBackDropClose, handleModalEditClose) => {
+    try {
+        handleBackDropToggle();
+        await booksApi.patch('/user', { ...user, userId }).then(() => {
+            handleBackDropClose();
+            handleModalEditClose();
+            setItemEdited(!itemEdited);
+        })
+    } catch (err) {
+        console.log("Error upating user: " + err.message)
+    }
+}
+
+const deleteUser = () => async (userId, handleToggle, itemDeleted, setItemDeleted, handleClose, handleModalConfirmClose) => {
+    try {
+        handleToggle();
+        await booksApi.delete('/user', { data: { userId } }).then(() => {
+            setItemDeleted(!itemDeleted);
+            handleClose();
+            handleModalConfirmClose();
+        })
+    } catch (err) {
+        console.log("Error deleting user: " + err.message);
+    }
+}
+
 export const { Provider, Context } = createDataContext(
     userManagementReducer,
-    { fetchUsers, searchUser },
+    { fetchUsers, searchUser, updateUser, deleteUser },
     []
 )

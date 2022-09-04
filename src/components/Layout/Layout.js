@@ -23,8 +23,8 @@ import Sidebar from "../Sidebar";
 import Charts from "../../pages/charts";
 import Icons from "../../pages/icons";
 import usersManagement from '../../pages/UsersManagement/UsersManagement';
-import BookList from "../../pages/bookList/BookList";
-import Orders from "../../pages/orders/Orders";
+import BookList from '../../pages/BookList/BookList'
+import Orders from '../../pages/Orders/Orders';
 import AddBook from "../../pages/addBook/addBook";
 // context
 import { useLayoutState } from "../../context/LayoutContext";

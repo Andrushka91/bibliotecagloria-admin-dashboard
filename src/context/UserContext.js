@@ -75,7 +75,7 @@ function signIn(dispatch, email, password, history, setIsLoading, setError) {
   )
     ();
 }
-const signUp = async (dispatch, name, email, password, setIsLoading, setSuccess, setError) => {
+const signUp = async (dispatch, name, email, password, setIsLoading, setSuccess, setError, handleCloseModalAddAccount,accountCreated, setAccountCreated ) => {
   setError(false);
   setIsLoading(true);
   try {
@@ -85,7 +85,11 @@ const signUp = async (dispatch, name, email, password, setIsLoading, setSuccess,
     console.log("data:", data);
     setSuccess(true);
     setError(null)
-    setIsLoading(false)
+    setIsLoading(false);
+    setTimeout(() => {
+      handleCloseModalAddAccount();
+    }, 4000);
+    setAccountCreated(!accountCreated);
   } catch (error) {
     setSuccess(false);
     setError(true);
