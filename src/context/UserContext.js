@@ -62,7 +62,8 @@ function signIn(dispatch, email, password, history, setIsLoading, setError) {
         localStorage.setItem('email', email);
         const user = await booksApi.get('/getUser', { headers: { 'token': data.token } })
         localStorage.setItem('name', user.data.name);
-        setError(null)
+        localStorage.setItem('userId',user.data.id);
+        setError(null);
         setIsLoading(false)
         dispatch({ type: 'LOGIN_SUCCESS', isAuthenticated: true })
         history.push('/app/BookList')

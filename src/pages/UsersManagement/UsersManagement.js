@@ -24,13 +24,11 @@ export default function UsersManagement() {
     const [open, setOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
-    const [modalConfirmClose, setModalConfirmClose] = useState(false);
-    const [modalAlertOpen, setModalAlertOpen] = useState(false);
     const [itemDeleted, setItemDeleted] = useState(false);
     const [itemEdited, setItemEdited] = useState(false);
     const [accountCreated, setAccountCreated] = useState(false);
     const classes = useStyles();
-    let itemsPerPage = 3;
+let itemsPerPage = 3;
 
     const tableHead = {
         name: 'NUME',

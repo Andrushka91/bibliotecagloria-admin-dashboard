@@ -15,14 +15,14 @@ const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser
     const [currentPage, setCurrentPage] = useState(page);
     const [disablePagination, setDisablePagination] = useState(false);
     const [openModalAddAccount, setOpenModalAddAccount] = useState(false);
-    const [userAdded,setUserAdded] = useState(false);
+    const [userAdded, setUserAdded] = useState(false);
     var classes = useStyles();
 
 
     useEffect(() => {
         setCollection(items);
     }, [items]);
-    
+
     useEffect(() => {
         setCollection(items);
     }, [userAdded]);
@@ -51,10 +51,13 @@ const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser
         const columnData = tableCell.map((keyD, i) => {
             if (keyD === '_id') {
                 return <td key={i}>
-                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => {updateUser(key[keyD])}} />
+                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => { updateUser(key[keyD]) }} />
                     <br />
                     <br />
-                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => { deleteUser(key[keyD]) }} />
+                    {localStorage.getItem('userId') !== key[keyD] ?
+                        <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => { deleteUser(key[keyD]) }} />
+                        :  <DeleteIcon style={{ color: '#b2b2b2' }} /> 
+                    }
                 </td>;
             }
             return <td key={i}>{key[keyD]}</td>;
@@ -89,7 +92,7 @@ const TableUsers = ({ tableHead, requestPage, searchUser, deleteUser, updateUser
                 aria-describedby="parent-modal-description"
             >
                 <Box className={classes.modalAddAccount}>
-                    <SignUp handleCloseModalAddAccount={handleCloseModalAddAccount} accountCreated setAccountCreated  />
+                    <SignUp handleCloseModalAddAccount={handleCloseModalAddAccount} accountCreated setAccountCreated />
                 </Box>
             </Modal>
 
